@@ -4,72 +4,73 @@ import {UserFormComponent} from "../user-form/user-form.component";
 import {AppService} from "../../shared/services/app.service";
 import {RoleService} from "../../shared/services/custom/role.service";
 import {LoopBackFilter} from "../../shared/models/base.model";
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss']
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
 
-    models: any[] = [];
-    modelCounts: number = 0;
-    roles: any[] = [];
+  models: any[] = [];
+  modelCounts: number = 0;
+  roles: any[] = [];
 
-    currentPage: number = 1;
+  currentPage: number = 1;
 
-    filter: LoopBackFilter = {
-        include: [
-            {
-                relation: 'roles',
-                scope: {order: 'id DESC'}
-            }
-        ],
-        limit: 25,
-    };
+  filter: LoopBackFilter = {
+  include: [{
+    relation: 'roles',
+      scope: {order: 'id DESC'}
+    }],
+  limit: 25,
+  };
 
-    errorMessage: string;
+  errorMessage: string;
 
-    constructor(
-        private app: AppService,
-        private roleService: RoleService,
-        private userService: UserService) {
+  constructor(
+    private app: AppService,
+    private roleService: RoleService,
+    private userService: UserService,
+    public dialog: MatDialog) {
+  }
+
+
+  ngOnInit() {
+    this.app.setTitle("Users");
+    this.userService.count().subscribe(res => {
+      this.modelCounts = res.count;
+    });
+    this.userService.find(this.filter).subscribe(users => {
+      this.models = users;
+    });
+
+    // get roles
+    this.roleService.find().subscribe(roles => {
+      this.roles = roles;
+    });
+  }
+
+  addItem(event?: any) {
+    let dialogRef = this.dialog.open(UserFormComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe((item: any) => {
+      if (item) {
+          this.models.push(item);
+      }
+    });
+  }
+
+  findIndexById(items: any[], item: any): number {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].id === item.id) {
+        return i;
+      }
     }
-
-
-    ngOnInit() {
-        this.app.setTitle("Users");
-        this.userService.count().subscribe(res => {
-            this.modelCounts = res.count;
-        });
-        this.userService.find(this.filter).subscribe(users => {
-            this.models = users;
-        });
-
-        // get roles
-        this.roleService.find().subscribe(roles => {
-            this.roles = roles;
-        });
-    }
-
-    // addItem(event?: any) {
-    //     let config: MatDialogConfig = {width: '500px'};
-    //     let dialogRef = this.dialog.open(UserFormComponent, config);
-    //     dialogRef.afterClosed().subscribe((item: any) => {
-    //         if (item) {
-    //             this.models.push(item);
-    //         }
-    //     });
-    // }
-
-    findIndexById(items: any[], item: any): number {
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].id === item.id) {
-                return i;
-            }
-        }
-        return null;
-    }
+    return null;
+  }
 
     onPageChange(event) {
         if (event.page > this.currentPage) {

@@ -8,30 +8,30 @@
   </div>
 
 
-  <form #f="ngForm" (ngSubmit)="onSave()">
+  <form #userform="ngForm" (ngSubmit)="onSave()">
     <div class="form-group form-group-full-width">
       <mat-form-field>
-        <input [(ngModel)]="model.firstName" type="text" mdInput name="firstName" placeholder="First Name"/>
+        <input matInput [(ngModel)]="model.firstName" type="text" mdInput name="firstName" placeholder="First Name"/>
       </mat-form-field>
     </div>
     <div class="form-group form-group-full-width">
       <mat-form-field>
-        <input [(ngModel)]="model.lastName" type="text" mdInput name="lastName" placeholder="Last Name"/>
+        <input matInput [(ngModel)]="model.lastName" type="text" mdInput name="lastName" placeholder="Last Name"/>
       </mat-form-field>
     </div>
     <div class="form-group form-group-full-width">
       <mat-form-field>
-        <input [(ngModel)]="model.email" type="email" mdInput name="email" placeholder="Email" [required]="true"/>
+        <input matInput [(ngModel)]="model.email" type="email" mdInput name="email" placeholder="Email" [required]="true"/>
       </mat-form-field>
     </div>
     <div class="form-group form-group-full-width">
       <mat-form-field>
-        <input [(ngModel)]="model.username" mdInput name="username" placeholder="Username" [required]="true"/>
+        <input matInput [(ngModel)]="model.username" mdInput name="username" placeholder="Username" [required]="true"/>
       </mat-form-field>
     </div>
     <div class="form-group form-group-full-width">
       <mat-form-field>
-        <input [(ngModel)]="model.password" type="password" mdInput name="password" placeholder="Password"
+        <input matInput [(ngModel)]="model.password" type="password" mdInput name="password" placeholder="Password"
                [required]="passwordRequired"/>
       </mat-form-field>
     </div>
