@@ -1,18 +1,16 @@
 # Lb-Ng5-Mat
 
-This project is an example application using Loopback API, Angular 5, Material 6.2.1 (currently), and MongoDB. It is based off https://github.com/tabvn/loopbackCMS, but simplified and updated to current versions. It is NOT ready for public use, as it is a project in development and has MANY breaking changes. This message will be updated when known bugs are fixed.
+This project is an example application using Loopback API 3.0, Angular 5, Material 6.2.1 (currently), and MongoDB. It is based off https://github.com/tabvn/loopbackCMS, but simplified and updated to current versions. It is NOT ready for public use, as it is a project in development and has MANY breaking changes. This message will be updated when known bugs are fixed.
 
 ================================
 
 # FEATURES:
-Loopback API integration
-User Auth
-Roles
-File upload/storage
-Live refresh
-Socket connection
-
-
+* Loopback API 3.0 integration
+* User Auth
+* Roles
+* File upload/storage
+* Live refresh
+* Socket connection
 
 ================================
 
@@ -24,13 +22,11 @@ Socket connection
 
 ================================
 
-
 # MONGODB
 
 `brew install mongodb`
 
 ================================
-
 
 # LOOPBACK API
 
