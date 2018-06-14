@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-title>{{title}}</mat-card-title>
+  <div *ngIf="errorMessage" class="alert is-critical">
+    <p>{{errorMessage}}</p>
+    <button class="close-button" mat-button (click)="errorMessage = null">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+
+  <form #f="ngForm" (ngSubmit)="onSave()">
+    <div class="form-group form-group-full-width">
+      <mat-form-field>
+        <input [(ngModel)]="model.firstName" type="text" mdInput name="firstName" placeholder="First Name"/>
+      </mat-form-field>
+    </div>
+    <div class="form-group form-group-full-width">
+      <mat-form-field>
+        <input [(ngModel)]="model.lastName" type="text" mdInput name="lastName" placeholder="Last Name"/>
+      </mat-form-field>
+    </div>
+    <div class="form-group form-group-full-width">
+      <mat-form-field>
+        <input [(ngModel)]="model.email" type="email" mdInput name="email" placeholder="Email" [required]="true"/>
+      </mat-form-field>
+    </div>
+    <div class="form-group form-group-full-width">
+      <mat-form-field>
+        <input [(ngModel)]="model.username" mdInput name="username" placeholder="Username" [required]="true"/>
+      </mat-form-field>
+    </div>
+    <div class="form-group form-group-full-width">
+      <mat-form-field>
+        <input [(ngModel)]="model.password" type="password" mdInput name="password" placeholder="Password"
+               [required]="passwordRequired"/>
+      </mat-form-field>
+    </div>
+    <div *ngIf="model.id" adminElement class="form-group form-group-full-width">
+      <label class="form-label">Roles</label>
+      <div *ngFor="let role of roles">
+        <mat-checkbox class="user-role-checkbox" name="user-role" value="role"
+                     (change)="updateRoles(role, $event)" ng-checked="isExistById(model.roles,role)">
+          {{role.name}}
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" mat-raised-button>{{action}}</button>
+      <button type="button" mat-button (click)="dialog.close()">Cancel</button>
+    </div>
+
+  </form>
+</mat-card>

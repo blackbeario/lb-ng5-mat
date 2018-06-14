@@ -1,0 +1,42 @@
+<div class="c6 b3">
+	<div *ngIf="errorMessage" class="alert is-critical">
+		<p>{{errorMessage}}</p>
+		<button class="close-button" mat-button (click)="errorMessage = null">
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+
+	<div *ngIf="(auth.currentUser$|async) && !(auth.isAdministrator(auth.getCurrentUserData()))" class="alert is-critical">
+		<p>You are logged in. However you must have administrator role to access dashboard system."</p>
+	</div>
+
+	<div *ngIf="!(auth.currentUser$|async)">
+		<form #f="ngForm" (ngSubmit)="onSubmit()">
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="user.username" matInput name="username" autocomplete="username" placeholder="Username" [required]="true"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="user.password" type="password" matInput name="password" autocomplete="current-password" placeholder="Password"
+								 [required]="true"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<mat-checkbox name="rememberMe" [(ngModel)]="rememberMe" ngDefaultControl>Remember Me</mat-checkbox>
+			</div>
+
+			<div class="form-group">
+				<ul class="links">
+					<li><a routerLink="/users/register">Create an account</a></li>
+					<li><a routerLink="/users/password">Forgot password</a></li>
+				</ul>
+			</div>
+			<div class="form-group">
+				<button type="submit" mat-raised-button>{{actionTitle}}</button>
+			</div>
+
+		</form>
+	</div>
+</div>

@@ -1,0 +1,50 @@
+<!-- Creates a layout with a left-positioned sidenav and explicit content. -->
+<mat-sidenav-container
+    class="example-container" (backdropClick)="close('backdrop')">
+  <mat-sidenav #sidenav (keydown.escape)="close('escape')" class="app-sidenav" disableClose>
+    <button mat-icon-button id="menuButton" aria-label="Main menu" title="Main menu" (click)="close('toggle button')">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+
+    <mat-menu #menu="matMenu">
+      <nav adminElement>
+        <h3>People</h3>
+        <ul>
+          <li><a adminElement routerLink="/users" routerLinkActive="active">Users</a></li>
+        </ul>
+        </nav>
+      <button mat-menu-item>Item 1</button>
+    </mat-menu>
+  </mat-sidenav>
+
+  <!-- Main content -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button id="menuButton" aria-label="Main menu" title="Main menu" (click)="sidenav.open()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="title">{{title}}</span>
+      <span class="app-toolbar-filler"></span>
+      <button *ngIf="(auth.currentUser$|async)" mat-button (click)="signOut()">SignOut</button>
+    </mat-toolbar>
+
+    <mat-card>
+      <div class="page-title">
+        <p class="text-body">{{app.appTitle$|async}}</p>
+        <ul class="l-right breadcrumb" *ngIf="app.getBreadcrumb((app.breadcrumb$|async))">
+          <li *ngFor="let breadcrumb of app.getBreadcrumb((app.breadcrumb$|async))">
+            <span *ngIf="!breadcrumb.link">{{breadcrumb.title}}</span>
+            <a *ngIf="breadcrumb.link" routerLink="{{breadcrumb.link}}"><span>{{breadcrumb.title}}</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mat-app-background l-content-small grid-fluid app-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-card>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

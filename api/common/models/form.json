@@ -1,0 +1,38 @@
+{
+  "name": "form",
+  "plural": "forms",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "textfield": {
+      "type": "string",
+      "required": true
+    },
+    "select": {
+      "type": [
+        "array"
+      ],
+      "default": [
+        "object"
+      ]
+    },
+    "radio": {
+      "type": "boolean"
+    },
+    "button": {
+      "type": "any",
+      "required": true
+    },
+    "checkbox": {
+      "type": "any",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

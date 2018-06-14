@@ -1,0 +1,62 @@
+<mat-card class="c6 b3">
+	<form #f="ngForm" (ngSubmit)="onSubmit()">
+		<div *ngIf="errorMessage" class="alert is-critical">
+			<p>{{errorMessage}}</p>
+			<button class="close-button" mat-button (click)="errorMessage = null">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+		<div *ngIf="successMessage">
+			<div class="alert is-helpful">
+				<p [innerHTML]="successMessage"></p>
+				<button class="close-button" mat-button (click)="successMessage = null">
+					<mat-icon>close</mat-icon>
+				</button>
+			</div>
+			<button type="button" mat-raised-button (click)="router.navigate(['/access'])">Login now</button>
+		</div>
+
+		<div *ngIf="!successMessage">
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="model.firstName" type="text" mdInput name="firstName" placeholder="First Name"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="model.lastName" type="text" mdInput name="lastName" placeholder="Last Name"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="model.email" type="email" mdInput name="email" placeholder="Email" [required]="true"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="model.username" mdInput name="username" placeholder="Username" [required]="true"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="model.password" type="password" mdInput name="password" placeholder="Password" [required]="true"/>
+				</mat-form-field>
+			</div>
+			<div class="form-group form-group-full-width">
+				<mat-form-field>
+					<input [(ngModel)]="passwordRepeat" type="password" mdInput name="repeat-password" placeholder="Repeat Password" [required]="true">
+				</mat-form-field>
+			</div>
+			<div class="form-group">
+				<ul class="links">
+					<li><a routerLink="/access">Login</a></li>
+					<li><a routerLink="/users/password">Forgot password</a></li>
+				</ul>
+			</div>
+			<div class="form-group">
+				<button type="submit" mat-raised-button>{{actionTitle}}</button>
+			</div>
+		</div>
+
+	</form>
+</mat-card>
