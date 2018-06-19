@@ -7,8 +7,8 @@
     </button>
 
     <mat-nav-list role="list">
-      <li><a mat-list-item routerLink="/content" routerLinkActive="active">Content</a></li>
-      <li><a mat-list-item routerLink="/users" routerLinkActive="active">Users</a></li>
+      <li><a mat-list-item routerLink="/content" routerLinkActive="active" (click)="close('toggle button')">Content</a></li>
+      <li><a mat-list-item routerLink="/users" routerLinkActive="active" (click)="close('toggle button')">Users</a></li>
     </mat-nav-list>
   </mat-sidenav>
 
