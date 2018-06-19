@@ -6,17 +6,10 @@
       <mat-icon>close</mat-icon>
     </button>
 
-    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-
-    <mat-menu #menu="matMenu">
-      <nav adminElement>
-        <h3>People</h3>
-        <ul>
-          <li><a adminElement routerLink="/users" routerLinkActive="active">Users</a></li>
-        </ul>
-        </nav>
-      <button mat-menu-item>Item 1</button>
-    </mat-menu>
+    <mat-nav-list role="list">
+      <li><a mat-list-item routerLink="/content" routerLinkActive="active">Content</a></li>
+      <li><a mat-list-item routerLink="/users" routerLinkActive="active">Users</a></li>
+    </mat-nav-list>
   </mat-sidenav>
 
   <!-- Main content -->

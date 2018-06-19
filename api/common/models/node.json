@@ -1,8 +1,7 @@
 {
-  "name": "user",
-  "base": "User",
-  "idInjection": false,
-  "forceId": false,
+  "name": "node",
+  "base": "PersistedModel",
+  "idInjection": true,
   "options": {
     "validateUpsert": true
   },
@@ -12,28 +11,28 @@
   },
   "scope": {
     "include": [
-      "roles"
+      "user"
     ]
   },
   "properties": {
-    "firstName": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
       "type": "string"
     },
-    "lastName": {
-      "type": "string"
+    "status": {
+      "type": "number",
+      "default": 1
     }
   },
   "validations": [],
   "relations": {
-    "roles": {
-      "type": "hasMany",
-      "model": "role",
-      "foreignKey": "principalId",
-      "through": "RoleMapping"
-    },
-    "containers": {
-      "type": "hasMany",
-      "model": "container",
+
+    "user": {
+      "type": "belongsTo",
+      "model": "user",
       "foreignKey": ""
     }
   },
@@ -47,20 +46,13 @@
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
-      "principalId": "$authenticated",
+      "principalId": "$everyone",
       "permission": "ALLOW",
       "property": [
-        "findOne"
-      ]
-    },
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$owner",
-      "permission": "ALLOW",
-      "property": [
+        "find",
         "findById",
-        "updateAttributes"
+        "findOne",
+        "count"
       ]
     },
     {
@@ -69,6 +61,16 @@
       "principalId": "administrator",
       "permission": "ALLOW",
       "property": "*"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": [
+        "findById",
+        "destroyById"
+      ]
     }
   ],
   "methods": {}

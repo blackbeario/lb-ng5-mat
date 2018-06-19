@@ -20,3 +20,11 @@
   overflow: auto;
   border: 1px solid #555;
 }
+
+mat-sidenav {
+  width: 200px;
+  padding: 10px;
+}
+mat-sidenav li {
+  list-style: none;
+}

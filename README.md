@@ -44,7 +44,7 @@ Run `node .` to start the node server.
 
 Optionally (recommended),  run `DEBUG=loopback:security:* node .` while in development for console debugging.
 
-Installing the API will automatically create a user with an administrator role. You can test in the Loopback API at http://localhost:3000 with this user.
+Installing the API will automatically create a user with an administrator role. You can test in the Loopback API at http://localhost:3000/explorer with this user.
 
 Demo user creds:
 username: `admin`

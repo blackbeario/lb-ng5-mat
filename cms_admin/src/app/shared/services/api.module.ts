@@ -9,10 +9,14 @@ import {StorageBrowser} from '../storage/storage.browser';
 import {UserService} from './custom/user.service';
 import {AppService} from "./app.service";
 import {RoleService} from "./custom/role.service";
+import { DialogService } from './core/dialog.service';
+import { NodeService } from './custom/node.service';
 
 @NgModule({
 	providers: [
-		ErrorHandler
+		ErrorHandler,
+		DialogService,
+		NodeService
 	]
 })
 
@@ -30,6 +34,8 @@ export class ApiModule {
 				AppModels,
 				UserService,
 				RoleService,
+				DialogService,
+				NodeService,
 				internalStorageProvider,
 				{provide: AppStorage, useClass: StorageBrowser}
 			]
