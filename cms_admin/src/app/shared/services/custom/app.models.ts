@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from "../../models/user.model";
 import {Role} from "../../models/role.model";
+import {Node} from "../../models/node.model";
 
 export interface Models {
 	[name: string]: any
@@ -12,6 +13,7 @@ export class AppModels {
 	private models: Models = {
 		User: User,
 		Role: Role,
+		Node: Node
 	};
 
 	public get(modelName: string): any {

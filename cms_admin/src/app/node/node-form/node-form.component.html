@@ -1,0 +1,76 @@
+<mat-card class="no-style">
+  <mat-card-title>{{title}}</mat-card-title>
+  <div *ngIf="errorMessage" class="alert is-critical">
+    <p>{{errorMessage}}</p>
+    <button class="close-button" mat-button (click)="errorMessage = null">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="onSave()">
+    <div class="grid-fluid">
+      <div class="c9 node-form-left">
+        <div class="form-group form-group-full-width">
+          <mat-form-field>
+            <input [(ngModel)]="model.title" type="text" matInput name="firstName" placeholder="Title"
+                   [required]="true"/>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group form-group-full-width">
+          <editor [(ngModel)]="model.body" name="body"></editor>
+        </div>
+
+        <div class="form-group form-group-full-width">
+          <div class="l-pad-1">
+            <mat-select [(ngModel)]="model.status" name="status" placeholder="Publish options">
+              <mat-option *ngFor="let op of nodeStatus" [value]="op.status">{{op.title}}</mat-option>
+            </mat-select>
+          </div>
+
+        </div>
+      </div>
+      <div class="c3 node-form-right">
+        <mat-card>
+          <mat-card-title>Publish</mat-card-title>
+          <mat-card-content>
+            <div class="form-group">
+              <button type="submit" [disabled]="errorMessage" mat-raised-button [color]="'primary'">{{action}}</button>
+              <button type="button" mat-button (click)="dialog.close()">Cancel</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <!-- <mat-card>
+          <mat-card-title>Categories</mat-card-title>
+          <mat-card-content>
+            <form-taxonomy (onChange)="onTaxonomyChange($event)" [selected]="model.taxonomies" [limit]="1"
+                           [vocabulary]="'categories'"></form-taxonomy>
+          </mat-card-content>
+
+        </mat-card> -->
+
+        <!-- <mat-card>
+          <mat-card-title>Media
+            <button (click)="openMediaLibrary()" title="Add media" type="button" mat-button [color]="'primary'">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-card-title>
+          <mat-card-content>
+            <div class="form-node-images">
+              <ul class="images-list">
+                <li mat-tooltip="click to remove" *ngFor="let image of model.images; let i = index;"
+                    (click)="onRemoveImmage(i)"><img
+                    [src]="image.media.name|thumbnail: 'thumbnail_150'"/></li>
+              </ul>
+            </div>
+          </mat-card-content>
+
+        </mat-card> -->
+
+
+      </div>
+    </div>
+
+
+  </form>
+</mat-card>

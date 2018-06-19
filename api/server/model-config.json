@@ -10,6 +10,7 @@
       "loopback/common/mixins",
       "loopback/server/mixins",
       "../common/mixins",
+      "../node_modules/loopback-ds-timestamp-mixin",
       "./mixins"
     ]
   },
@@ -45,6 +46,10 @@
     "public": true
   },
   "form": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "node": {
     "dataSource": "mongo",
     "public": true
   },

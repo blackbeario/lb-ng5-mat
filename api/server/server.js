@@ -37,11 +37,14 @@ boot(app, __dirname, function (err) {
 
         require('socketio-auth')(app.io, {
             authenticate: function (socket, value, callback) {
-
+                // We can log the user's info from the socket cookie
+                // console.log(socket.handshake.headers.cookie);
                 socket.client.accessToken = null;
                 socket.client.userId = null;
 
                 if (value && value.userId && value.id) {
+                    // value yields access token and userID
+                    // console.log(value);
                     var AccessToken = app.models.AccessToken;
                     //get credentials sent by the client
                     var token = AccessToken.findOne({
@@ -66,15 +69,13 @@ boot(app, __dirname, function (err) {
 
             },
             postAuthenticate: function (socket, data) {
-                console.log("User connected User:", socket.client.userId ? socket.client.userId : "anonymous");
+                console.log("user connected User:", socket.client.userId ? socket.client.userId : "anonymous");
             }
         });
 
         app.io.on('connection', function (socket) {
-
             socket.on('disconnect', function () {
                 console.log('user disconnected User:', socket.client.userId ? socket.client.userId : "anonymous");
-
             });
         });
 

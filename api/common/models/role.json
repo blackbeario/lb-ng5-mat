@@ -1,7 +1,8 @@
 {
   "name": "role",
   "base": "Role",
-  "idInjection": true,
+  "idInjection": false,
+  "forceId": false,
   "options": {
     "validateUpsert": true
   },
@@ -11,7 +12,7 @@
     "user": {
       "type": "belongsTo",
       "model": "user",
-      "foreignKey": ""
+      "foreignKey": "userID"
     }
   },
   "acls": [
@@ -20,6 +21,18 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "accessType": "container",
+      "principalType": "ROLE",
+      "principalId": "client",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "user",
+      "principalType": "ROLE",
+      "principalId": "manager",
+      "permission": "ALLOW"
     },
     {
       "accessType": "*",

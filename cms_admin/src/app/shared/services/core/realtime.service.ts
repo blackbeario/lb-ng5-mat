@@ -14,21 +14,26 @@ export class RealtimeService {
 
   constructor(private auth: AuthService) {
     this.userId = this.auth.getCurrentUserId();
+    let serverURL = ApiConfig.getPath();
+    this.socket = socketIo(serverURL);
   }
 
   connect(): void {
     let accessTokenId = this.auth.getAccessTokenId();
-    let userId = this.auth.getCurrentUserId();
-    this.userId = userId;
+    this.userId = this.userId;
 
-    let serverURL = ApiConfig.getPath();
-    this.socket = socketIo(serverURL);
-    this.socket.emit('authentication', {id: accessTokenId, userId: userId});
-
-    this.socket.on('authenticated', () => {
+    this.socket.emit('authentication', {
+      id: accessTokenId, userId: this.userId
     });
 
-    this.socket.on("disconnect", () => {});
+    this.socket.on('authenticated', () => {
+      console.log('socket authenticated user: ' + this.userId);
+    });
+
+    this.socket.on("disconnect", () => {
+      console.log('socket disconnected user: ' + this.userId);
+    });
+
     this.auth.onAuthChange$.subscribe(user => {
       let token = this.auth.getAccessTokenId();
       let uid: string;
@@ -53,13 +58,9 @@ export class RealtimeService {
   }
 
   observable(options: any): Observable<any> {
-
-    let userId = this.auth.getCurrentUserId();
-
     if (!this.socket.connected) {
-        this.connect();
+      this.connect();
     }
-
     let subject: Subject<any> = new Subject<any>();
 
     if (options) {
@@ -77,7 +78,7 @@ export class RealtimeService {
         subject.next(data);
       });
 
-      let userSubscription = userId ? userId : "everyone";
+      let userSubscription = this.userId ? this.userId : "everyone";
 
       let subscriptionObject: any = {
         user: userSubscription,

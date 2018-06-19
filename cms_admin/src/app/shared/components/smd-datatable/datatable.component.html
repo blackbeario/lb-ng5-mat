@@ -6,26 +6,26 @@
     <thead>
     <tr>
       <th *ngIf="_shouldRenderCheckbox()">
-        <md-checkbox [(ngModel)]="checked"
-                     (change)="_onMasterCheckChange()" ngDefaultControl>
-        </md-checkbox>
+        <mat-checkbox [(ngModel)]="checked"
+            (change)="_onMasterCheckChange()" ngDefaultControl>
+        </mat-checkbox>
       </th>
       <th *ngFor="let column of columns"
-          [class.smd-datatable-column-sortable]="column.sortable"
-          [class.smd-numeric-column]="column.numeric"
-          (click)="_sortColumn(column)">
-                <span
-                    [class.smd-sorted-asc]="column.sortDir == 'asc'"
-                    [class.smd-sorted-desc]="column.sortDir == 'desc'">
-                    {{column.title}}
-                </span>
+        [class.smd-datatable-column-sortable]="column.sortable"
+        [class.smd-numeric-column]="column.numeric"
+        (click)="_sortColumn(column)">
+          <span
+            [class.smd-sorted-asc]="column.sortDir == 'asc'"
+            [class.smd-sorted-desc]="column.sortDir == 'desc'">
+            {{column.title}}
+          </span>
       </th>
     </tr>
     <tr *ngIf="responsive && _shouldRenderCheckbox()" class="smd-datatable-responsive-header">
       <th [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
-        <md-checkbox [(ngModel)]="checked"
-                     (change)="_onMasterCheckChange()" ngDefaultControl>
-        </md-checkbox>
+        <mat-checkbox [(ngModel)]="checked"
+            (change)="_onMasterCheckChange()" ngDefaultControl>
+        </mat-checkbox>
       </th>
     </tr>
     </thead>
@@ -33,11 +33,11 @@
 
     <ng-template ngFor let-row [ngForOf]="visibleRows">
       <tr #dataTableRow smd-datatable-row
-          [class.is-selected]="row.checked"
-          [row]="row"
-          [renderCheckbox]="_shouldRenderCheckbox()"
-          [columns]="columns"></tr>
-
+        [class.is-selected]="row.checked"
+        [row]="row"
+        [renderCheckbox]="_shouldRenderCheckbox()"
+        [columns]="columns">
+      </tr>
     </ng-template>
 
     </tbody>
@@ -45,19 +45,19 @@
     <!-- Using hidden because *ngIf is conflicting with ViewChild(SmdPaginatorComponent) -->
     <tr [hidden]="!paginated || rows.length == 0">
       <td [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
-                    <span>
-                        <smd-paginator
-                            [count]="rowCount"
-                            [ranges]="paginatorRanges"
-                            (pageChange)="_onPageChange($event)">
-                        </smd-paginator>
-                    </span>
+        <span>
+          <smd-paginator
+            [count]="rowCount"
+            [ranges]="paginatorRanges"
+            (pageChange)="_onPageChange($event)">
+          </smd-paginator>
+        </span>
       </td>
     </tr>
     <tr *ngIf="rows.length == 0">
       <td [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
         <span>
-            There are no items
+          There are no items
         </span>
       </td>
     </tr>
