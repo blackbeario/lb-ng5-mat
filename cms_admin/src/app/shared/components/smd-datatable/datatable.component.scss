@@ -9,6 +9,12 @@ smd-datatable {
       }
     }
   }
+  mat-checkbox {
+    width: 25px;
+    height: 25px;
+    display: inherit;
+    background: gray;
+  }
   .smd-table-container {
     max-width: 100%;
     display: block;
@@ -66,8 +72,10 @@ smd-datatable {
               padding: 0 12px 0 5px;
             }
 
-            &.smd-datatable-header-checkbox {
+            &.smd-datatable-header-checkbox,
+            &.smd-datatable-body-checkbox {
               width: 30px;
+              height: 30px;
             }
 
             &.smd-datatable-column-sortable {
@@ -280,13 +288,12 @@ smd-datatable {
             td {
               &.smd-datatable-body-checkbox {
                 width: 25px;
+                height: 25px;
               }
 
               &:not(.smd-datatable-body-checkbox) {
                 min-height: 25px;
-                vertical-align: middle;
                 padding: 1px 0;
-
                 text-align: left;
                 display: block;
                 width: 100%;

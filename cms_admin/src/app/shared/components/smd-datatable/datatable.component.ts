@@ -25,7 +25,8 @@ import {
 
 import {SmdPaginatorComponent} from "../smd-paginator/paginator.component";
 import {Subscription} from "rxjs/Subscription";
-import {MatDialogRef, MatDialog, MatDialogConfig} from '@angular/material';
+import {MatDialogRef, MatCheckboxModule, MatDialog, MatDialogConfig} from '@angular/material';
+import {SelectionModel} from '@angular/cdk/collections';
 
 let columnIds = 0;
 
@@ -42,6 +43,9 @@ export class SmdDataRowModel {
     }
 }
 
+/**
+ * Row Actions Dialog?
+ */
 @Component({
     selector: "smd-change-value-dialog",
     template: `
@@ -71,6 +75,7 @@ export class SmdDataRowModel {
         }
     `]
 })
+
 export class SmdDatatableDialogChangeValue {
 
     public title: string;
@@ -89,6 +94,9 @@ export class SmdDatatableDialogChangeValue {
     }
 }
 
+/**
+ * Datatable Cells
+ */
 @Directive({
     selector: '[smd-data-cell]'
 })
@@ -100,7 +108,10 @@ export class SmdDataTableCellComponent implements OnInit, OnDestroy {
 
     childView: EmbeddedViewRef<SmdDataTableCellComponent>;
 
-    constructor(private _viewContainer: ViewContainerRef, private _elementRef: ElementRef) {
+    constructor(
+        private _viewContainer: ViewContainerRef,
+        private _elementRef: ElementRef,
+        private checkbox: MatCheckboxModule) {
     }
 
     ngOnInit(): void {
@@ -114,12 +125,15 @@ export class SmdDataTableCellComponent implements OnInit, OnDestroy {
     }
 }
 
+/**
+ * Datatable Rows
+ */
 @Component({
     selector: "[smd-datatable-row]",
     template:
         `<td *ngIf="renderCheckbox" class="smd-datatable-body-checkbox">
             <div class="smd-checkbox">
-                <mat-checkbox [(ngModel)]="row.checked" (change)="_parent._onRowCheckChange(row)" ngDefaultControl>
+                <mat-checkbox [(ngModel)]="row.checked" (change)="_parent._onRowCheckChange(row)" aria-label="checkbox" ngDefaultControl>
                 </mat-checkbox>
             </div>
         </td>
@@ -136,6 +150,7 @@ export class SmdDataTableCellComponent implements OnInit, OnDestroy {
             </span>
         </td>`
 })
+
 export class SmdDataTableRowComponent {
     @Input() row: SmdDataRowModel;
     @Input() renderCheckbox: boolean;
@@ -179,6 +194,10 @@ export class SmdDataTableRowComponent {
 
 }
 
+
+/**
+ * Datatable Columns
+ */
 @Component({
     selector: "smd-datatable-column",
     template: `
@@ -232,10 +251,14 @@ export class SmdDataTableColumnComponent implements OnInit {
     }
 }
 
+
+/**
+ * Datatable Action button
+ */
 @Component({
     selector: "smd-datatable-action-button",
     template: `
-        <button md-button
+        <button mat-button
                 color="primary"
                 *ngIf="_checkButtonIsVisible()"
                 (click)="_onButtonClick($event)">
@@ -262,19 +285,24 @@ export class SmdDatatableActionButton {
     }
 }
 
+
+/**
+ * Datatable Contextual button
+ */
 @Component({
     selector: "smd-datatable-contextual-button",
     template: `
-        <button md-icon-button
+        <button mat-icon-button
                 *ngIf="_checkButtonIsVisible()"
                 (click)="_onButtonClick($event)">
             <mat-icon>{{icon}}</mat-icon>
         </button>
     `
 })
+
 export class SmdContextualDatatableButton {
     @Input() icon: string;
-    @Input() minimunSelected: number = -1;
+    @Input() minimumSelected: number = -1;
     @Input() maxSelected: number = -1;
     @Output() onClick: EventEmitter<any[]> = new EventEmitter<any[]>();
 
@@ -287,7 +315,7 @@ export class SmdContextualDatatableButton {
 
     _checkButtonIsVisible() {
         let shouldShow = true;
-        if (this.minimunSelected != null && this.minimunSelected > 0 && this._parent.selectedRows().length < this.minimunSelected) {
+        if (this.minimumSelected != null && this.minimumSelected > 0 && this._parent.selectedRows().length < this.minimumSelected) {
             shouldShow = false;
         }
         if (shouldShow && this.maxSelected > 0 && this._parent.selectedRows().length > this.maxSelected) {
@@ -297,6 +325,10 @@ export class SmdContextualDatatableButton {
     }
 }
 
+
+/**
+ * Datatable Header
+ */
 @Component({
     selector: "smd-datatable-header",
     template: `
@@ -320,6 +352,7 @@ export class SmdContextualDatatableButton {
         '[class.is-selected]': '_hasRowsSelected()'
     }
 })
+
 export class SmdDatatableHeader implements AfterContentInit, OnDestroy {
 
     private filterTimeout: any;
@@ -337,7 +370,7 @@ export class SmdDatatableHeader implements AfterContentInit, OnDestroy {
     }
 
     public shouldRenderCheckbox() {
-        return this.contextualButtons && this.contextualButtons.toArray().filter((button: SmdContextualDatatableButton) => button.minimunSelected > 0).length > 0;
+        return this.contextualButtons && this.contextualButtons.toArray().filter((button: SmdContextualDatatableButton) => button.minimumSelected > 0).length > 0;
     }
 
     private _hasRowsSelected(): boolean {
@@ -372,6 +405,10 @@ export class SmdDatatableHeader implements AfterContentInit, OnDestroy {
     }
 }
 
+
+/**
+ * Main Datatable Component
+ */
 @Component({
     selector: "smd-datatable",
     templateUrl: "./datatable.component.html",
@@ -412,6 +449,11 @@ export class SmdDataTable implements DoCheck, AfterContentInit, OnDestroy {
     constructor(differs: IterableDiffers, private _viewContainer: ViewContainerRef, public changeDetector: ChangeDetectorRef) {
         this.differ = differs.find([]).create(null);
     }
+
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+      }
 
     ngAfterContentInit() {
         this._updateRows();

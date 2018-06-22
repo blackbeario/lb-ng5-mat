@@ -1,27 +1,26 @@
-<div class="datatable-card">
+<div class="smd-table-container datatable-card">
   <div *ngIf="errorMessage" class="l-pad-top-1 l-pad-bottom-1 alert is-critical">{{errorMessage}}</div>
   <smd-datatable
-      [models]="models"
-      [paginated]="true"
-      [paginatorRanges]="[25,50,75,100]"
-      [counts]="modelCounts"
-      (pageChange)="onPageChange($event)"
-      [responsive]="responsive">
+    [models]="models"
+    [paginated]="true"
+    [paginatorRanges]="[5,10,25,50,100]"
+    [counts]="modelCounts"
+    (pageChange)="onPageChange($event)"
+    [responsive]="responsive">
 
     <smd-datatable-header
-        [enableFilter]="true"
-        filterLabel="Search...">
+      [enableFilter]="true" filterLabel="Search...">
       <smd-datatable-action-button (onClick)="addItem($event)" label=" +" icon="add"></smd-datatable-action-button>
-
+      <!-- Edit button only shows if exactly one row is selected -->
       <smd-datatable-contextual-button (onClick)="editItem($event)" icon="edit"
-                                       [minimunSelected]="1" [maxSelected]="1"
-                                       matTooltip="Edit the selected element"></smd-datatable-contextual-button>
-      <smd-datatable-contextual-button (onClick)="removeItems($event)" icon="delete"
-                                       [minimunSelected]="1"
-                                       matTooltip="Delete the element"></smd-datatable-contextual-button>
-      <smd-datatable-contextual-button icon="search"></smd-datatable-contextual-button>
+        [minimumSelected]="1" [maxSelected]="1" matTooltip="Edit the selected element">
+      </smd-datatable-contextual-button>
+      <!-- Delete button only shows if one or more rows are selected -->
+      <smd-datatable-contextual-button (onClick)="removeItems($event)" icon="delete" [minimumSelected]="1" matTooltip="Delete the element">
+      </smd-datatable-contextual-button>
+      <smd-datatable-contextual-button icon="search">
+      </smd-datatable-contextual-button>
     </smd-datatable-header>
-
 
     <smd-datatable-column title="Title" field="title" sortable="true">
       <ng-template let-model="data">
@@ -34,20 +33,16 @@
       </ng-template>
     </smd-datatable-column>
     <smd-datatable-column title="Created" field="createdAt" sortable="true"
-                          [sortFn]="_sortByBirthDate"
-                          [filterFn]="_filterByBirthDate">
+      [sortFn]="_sortByBirthDate" [filterFn]="_filterByBirthDate">
       <ng-template let-model="data">
         {{model.createdAt | date:'dd/MM/yyyy, hh:mm:ss a'}}
       </ng-template>
     </smd-datatable-column>
     <smd-datatable-column title="Updated" field="updatedAt" sortable="true"
-                          [sortFn]="_sortByBirthDate"
-                          [filterFn]="_filterByBirthDate">
+      [sortFn]="_sortByBirthDate" [filterFn]="_filterByBirthDate">
       <ng-template let-model="data">
         {{model.updatedAt | date:'dd/MM/yyyy, hh:mm:ss a'}}
       </ng-template>
     </smd-datatable-column>
-
-
   </smd-datatable>
 </div>

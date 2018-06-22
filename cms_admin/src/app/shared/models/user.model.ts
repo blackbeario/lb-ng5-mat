@@ -2,7 +2,6 @@ declare var Object: any;
 export interface UserInterface {
     firstName?: string;
     lastName?: string;
-    realm?: string;
     username?: string;
     password: string;
     email: string;
@@ -18,7 +17,6 @@ export interface UserInterface {
 export class User implements UserInterface {
     firstName?: string;
     lastName?: string;
-    realm: string;
     username: string;
     password: string;
     email: string;
@@ -54,10 +52,6 @@ export class User implements UserInterface {
                 lastName: {
                     name: 'lastName',
                     type: 'string',
-                },
-                realm: {
-                    name: 'realm',
-                    type: 'string'
                 },
                 username: {
                     name: 'username',

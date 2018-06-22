@@ -1,0 +1,58 @@
+<!-- Filter -->
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<!-- Begin the datatable -->
+<mat-table #table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
+  <!-- <span *ngIf="_hasRowsSelected()">
+      {{_selectedRowsLength()}} {{_selectedRowsLength() == 1 ? 'item selected' : 'items selected'}}
+  </span> -->
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="username">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="roles">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Roles</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span *ngFor="let role of element.roles">{{role.name}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="created">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.createdAt}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="updated">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{element.updatedAt}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

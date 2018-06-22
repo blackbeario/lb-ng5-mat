@@ -20,6 +20,10 @@ const appRoutes: Routes = [
     {
         path: 'content',
         loadChildren: './node/node.module#NodeModule'
+    },
+    {
+        path: 'table',
+        loadChildren: './table/table.module#TableModule'
     }
 ];
 

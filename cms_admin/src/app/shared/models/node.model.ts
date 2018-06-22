@@ -8,8 +8,6 @@ export interface NodeInterface {
     status?: number;
     // taxonomies?: any[];
     // images?: any[];
-
-
 }
 
 export class Node implements NodeInterface {

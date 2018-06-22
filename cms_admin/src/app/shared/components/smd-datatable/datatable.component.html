@@ -1,14 +1,14 @@
 <div class="smd-table-container">
-  <table class="smd-data-table full-width">
+  <table mat-table class="smd-data-table full-width">
     <caption>
       <ng-content select="smd-datatable-header"></ng-content>
     </caption>
     <thead>
     <tr>
       <th *ngIf="_shouldRenderCheckbox()">
-        <mat-checkbox [(ngModel)]="checked"
+        <md-checkbox [(ngModel)]="checked"
             (change)="_onMasterCheckChange()" ngDefaultControl>
-        </mat-checkbox>
+        </md-checkbox>
       </th>
       <th *ngFor="let column of columns"
         [class.smd-datatable-column-sortable]="column.sortable"
@@ -21,24 +21,26 @@
           </span>
       </th>
     </tr>
-    <tr *ngIf="responsive && _shouldRenderCheckbox()" class="smd-datatable-responsive-header">
-      <th [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
-        <mat-checkbox [(ngModel)]="checked"
+
+    <!-- Checkbox Column -->
+    <tr *ngIf="responsive && _shouldRenderCheckbox()" class="smd-datatable-responsive-header" matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
+        <md-checkbox class="mat-checkbox mat-accent" [(ngModel)]="checked"
             (change)="_onMasterCheckChange()" ngDefaultControl>
-        </mat-checkbox>
+        </md-checkbox>
       </th>
     </tr>
     </thead>
     <tbody *ngIf="rows?.length > 0">
 
-    <ng-template ngFor let-row [ngForOf]="visibleRows">
-      <tr #dataTableRow smd-datatable-row
-        [class.is-selected]="row.checked"
-        [row]="row"
-        [renderCheckbox]="_shouldRenderCheckbox()"
-        [columns]="columns">
-      </tr>
-    </ng-template>
+      <ng-template ngFor let-row [ngForOf]="visibleRows">
+        <tr #dataTableRow smd-datatable-row
+          [class.is-selected]="row.checked"
+          [row]="row"
+          [renderCheckbox]="_shouldRenderCheckbox()"
+          [columns]="columns">
+        </tr>
+      </ng-template>
 
     </tbody>
     <tfoot>
