@@ -45,16 +45,18 @@ export class MaterialTableComponent implements OnInit {
     });
   }
 
-  addUser() {
-    this.userService.patchOrCreate();
-  }
-
+  filterValue:string = '';
   applyFilter(filterValue: string) {
     // Remove whitespace.
     filterValue = filterValue.trim();
     // MatTableDataSource defaults to lowercase matches.
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+
+  clearFilter(filterValue: string) {
+    this.filterValue = '';
+    this.dataSource.filter = null;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
