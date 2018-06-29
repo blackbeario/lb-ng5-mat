@@ -1,7 +1,10 @@
 <!-- Filter -->
 <div class="filter-header" [style.display]="selection.isEmpty() ? '' : 'inherit'">
   <mat-form-field floatPlaceholder="never">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <button *ngIf="filterValue" mat-icon-button aria-label="filter" title="clear filter" (click)="clearFilter()" class="clearFilter">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 </div>
 
@@ -62,4 +65,4 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 </mat-table>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
