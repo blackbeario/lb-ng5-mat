@@ -6,9 +6,9 @@
     <thead>
     <tr>
       <th *ngIf="_shouldRenderCheckbox()">
-        <md-checkbox [(ngModel)]="checked"
+        <mat-checkbox [(ngModel)]="checked"
             (change)="_onMasterCheckChange()" ngDefaultControl>
-        </md-checkbox>
+        </mat-checkbox>
       </th>
       <th *ngFor="let column of columns"
         [class.smd-datatable-column-sortable]="column.sortable"
@@ -25,9 +25,9 @@
     <!-- Checkbox Column -->
     <tr *ngIf="responsive && _shouldRenderCheckbox()" class="smd-datatable-responsive-header" matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef [attr.colspan]="columns.length + (_shouldRenderCheckbox() ? 1 : 0)">
-        <md-checkbox class="mat-checkbox mat-accent" [(ngModel)]="checked"
+        <mat-checkbox class="mat-checkbox mat-accent" [(ngModel)]="checked"
             (change)="_onMasterCheckChange()" ngDefaultControl>
-        </md-checkbox>
+        </mat-checkbox>
       </th>
     </tr>
     </thead>

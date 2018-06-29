@@ -5,7 +5,7 @@ export class ApiConfig {
   private static defaultMediaUploadMaxFilesize: number = 2; //2MB
   private static version: string | number = 'api';
   private static authPrefix: string = '';
-  private static debug: boolean = false;
+  private static debug: boolean = true;
   private static adminRoles: string[] = [
     'administrator'
   ];

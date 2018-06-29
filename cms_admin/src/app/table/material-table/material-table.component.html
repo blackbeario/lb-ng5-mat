@@ -1,13 +1,20 @@
 <!-- Filter -->
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+<div class="filter-header" [style.display]="selection.isEmpty() ? '' : 'inherit'">
+  <mat-form-field floatPlaceholder="never">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+</div>
+
+<!-- Selections -->
+<div class="selection-header"
+      *ngIf="!selection.isEmpty()">
+  {{selection.selected.length}}
+  {{selection.selected.length == 1 ? 'user' : 'users'}}
+  selected (out of {{dataSource.data.length}})
+</div>
 
 <!-- Begin the datatable -->
 <mat-table #table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
-  <!-- <span *ngIf="_hasRowsSelected()">
-      {{_selectedRowsLength()}} {{_selectedRowsLength() == 1 ? 'item selected' : 'items selected'}}
-  </span> -->
   <!-- Checkbox Column -->
   <ng-container matColumnDef="select">
     <mat-header-cell *matHeaderCellDef>
@@ -54,5 +61,5 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-  </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

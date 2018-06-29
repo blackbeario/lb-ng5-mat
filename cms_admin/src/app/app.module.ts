@@ -9,12 +9,13 @@ import { ApiModule } from "./shared/services/api.module";
 import { appRoutingProviders, AppRouting } from "./app.routing";
 import { SharedModule } from "./shared/shared.module";
 import { MaterialModule } from "./shared/material.module";
+import { TableModule } from './table/table.module';
 
 import 'hammerjs';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +25,8 @@ import 'hammerjs';
     MaterialModule,
     SharedModule.forRoot(),
     ApiModule.forRoot(),
-    AppRouting
+    AppRouting,
+    TableModule
   ],
   entryComponents: [AppComponent],
   providers: [appRoutingProviders],

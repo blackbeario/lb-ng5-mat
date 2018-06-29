@@ -298,7 +298,6 @@ export class UserService extends BaseService {
         return result;
     }
 
-
     /**
      * Add a role to user
      */

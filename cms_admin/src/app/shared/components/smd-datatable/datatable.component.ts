@@ -436,7 +436,7 @@ export class SmdDataTable implements DoCheck, AfterContentInit, OnDestroy {
     @Input() models: any[] = [];
     @Input() checked: boolean = false;
     @Input() paginated: boolean = true;
-    @Input() paginatorRanges: number[] = [10, 25, 50, 100];
+    @Input() paginatorRanges: number[] = [5, 10, 25, 50, 100];
     @Input() responsive: boolean = false;
     @Input() counts: number = 0;
 

@@ -42,8 +42,7 @@ let COMPONENTS = [
     SmdFabSpeedDialComponent,
     AdminElementDirective,
     EditorComponent,
-    TreeOptionComponent,
-];
+    TreeOptionComponent];
 
 
 @NgModule({
