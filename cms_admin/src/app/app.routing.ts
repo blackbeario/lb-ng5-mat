@@ -2,11 +2,12 @@ import {ModuleWithProviders} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from './shared/auth.guard';
 import {RealtimeService} from "./shared/services/core/realtime.service";
+import { MaterialTableComponent } from './table/material-table/material-table.component';
 
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/users',
+        redirectTo: '/access',
         pathMatch: 'full'
     },
     {
@@ -20,6 +21,10 @@ const appRoutes: Routes = [
     {
         path: 'content',
         loadChildren: './node/node.module#NodeModule'
+    },
+    {
+        path: 'table',
+        component: MaterialTableComponent
     }
 ];
 

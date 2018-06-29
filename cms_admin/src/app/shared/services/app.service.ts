@@ -7,9 +7,7 @@ export class AppService {
     appTitle$: Observable<string>;
     breadcrumb$: Observable<any>;
 
-
     constructor() {
-
     }
 
     setTitle(title: string) {

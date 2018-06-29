@@ -1,4 +1,3 @@
-
 <div class="datatable-card">
   <div *ngIf="errorMessage" class="l-pad-top-1 l-pad-bottom-1 alert is-critical">{{errorMessage}}</div>
   <smd-datatable
@@ -11,22 +10,16 @@
 
     <smd-datatable-header [enableFilter]="true" filterLabel="Search...">
       <smd-datatable-action-button (onClick)="addItem($event)" label=" +" icon="add user"></smd-datatable-action-button>
+      <!-- Edit button only shows if exactly one row is selected -->
       <smd-datatable-contextual-button (onClick)="editItem($event)" icon="edit"
-          [minimunSelected]="1" [maxSelected]="1" matTooltip="Edit the selected element">
+          [minimumSelected]="1" [maxSelected]="1" matTooltip="Edit the selected element">
       </smd-datatable-contextual-button>
+      <!-- Delete button only shows if one or more rows are selected -->
       <smd-datatable-contextual-button (onClick)="removeItems($event)"
-        icon="delete" [minimunSelected]="1" matTooltip="Delete the element">
+        icon="delete" [minimumSelected]="1" matTooltip="Delete the element">
       </smd-datatable-contextual-button>
       <smd-datatable-contextual-button icon="search"></smd-datatable-contextual-button>
     </smd-datatable-header>
-
-    <!-- <smd-datatable-column title="Avatar" field="avatar" titleTooltip="User Avatar">
-      <ng-template let-model="data">
-        <div matTooltip="Change profile image" (click)="changeAvatar(model)"
-             class="user-avatar user-avatar-small user-avatar-allow-edit"><img
-            *ngIf="model.avatar" [src]="model.avatar.media.name|thumbnail: 'thumbnail_150'"/></div>
-      </ng-template>
-    </smd-datatable-column> -->
 
     <smd-datatable-column title="Username" field="username"
       sortable="true" titleTooltip="Username">

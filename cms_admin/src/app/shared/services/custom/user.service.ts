@@ -298,7 +298,6 @@ export class UserService extends BaseService {
         return result;
     }
 
-
     /**
      * Add a role to user
      */
@@ -543,7 +542,7 @@ export class UserService extends BaseService {
     }
 
     /**
-     * Get data of the currently logged access tokern that was returned by the last
+     * Get data of the currently logged access token that was returned by the last
      * call to {@link sdk.User#login}
      *
      * @returns object An AccessToken instance.

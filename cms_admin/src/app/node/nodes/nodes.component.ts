@@ -8,6 +8,7 @@ import {NodeService} from "../../shared/services/custom/node.service";
 import {Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {RealtimeService} from "../../shared/services/core/realtime.service";
+import {MaterialModule} from "../../shared/material.module";
 
 @Component({
     selector: 'app-nodes',
