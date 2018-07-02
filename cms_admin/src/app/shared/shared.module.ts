@@ -44,7 +44,6 @@ let COMPONENTS = [
     EditorComponent,
     TreeOptionComponent];
 
-
 @NgModule({
     imports: IMPORTS,
     exports: COMPONENTS,

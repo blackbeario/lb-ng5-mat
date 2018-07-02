@@ -9,7 +9,6 @@ import { ApiModule } from "./shared/services/api.module";
 import { appRoutingProviders, AppRouting } from "./app.routing";
 import { SharedModule } from "./shared/shared.module";
 import { MaterialModule } from "./shared/material.module";
-import { TableModule } from './table/table.module';
 
 import 'hammerjs';
 
@@ -25,8 +24,7 @@ import 'hammerjs';
     MaterialModule,
     SharedModule.forRoot(),
     ApiModule.forRoot(),
-    AppRouting,
-    TableModule
+    AppRouting
   ],
   entryComponents: [AppComponent],
   providers: [appRoutingProviders],

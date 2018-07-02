@@ -1,0 +1,81 @@
+<div class="mat-table-header">
+  <!-- Filter -->
+    <div class="filter-header" [style.display]="selection.isEmpty() ? '' : 'inherit'">
+      <mat-form-field floatPlaceholder="never">
+        <input [(ngModel)]="filterValue" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        <button *ngIf="filterValue" mat-icon-button aria-label="filter" title="clear filter" (click)="clearFilter()" class="clearFilter">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <!-- Add Item -->
+    <button #addItem mat-raised-button color="primary" aria-label="Add Item" title="Add user" (onClick)="addItem($event)" class="addItem">Add</button>
+  </div>
+
+  <!-- Begin the datatable -->
+  <mat-table #table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+      <mat-footer-cell *matFooterCellDef>
+          <span *ngIf="!selection.isEmpty()">
+            Total
+          </span>
+      </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Username</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
+      <mat-footer-cell *matFooterCellDef>
+        <span *ngIf="!selection.isEmpty()">
+          {{selection.selected.length}}
+          {{selection.selected.length == 1 ? 'user' : 'users'}}
+          selected
+        </span>
+      </mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="roles">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Roles</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <span *ngFor="let role of element.roles">{{role.name}}</span>
+      </mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Created</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.createdAt}}</mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="updated">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Updated</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.updatedAt}}</mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
