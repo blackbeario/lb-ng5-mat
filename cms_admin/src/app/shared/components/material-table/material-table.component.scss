@@ -17,9 +17,11 @@
 }
 
 .mat-footer-row {
+  background: white;
   min-height: 0;
 
   span.ng-star-inserted {
-    min-height: 48px;
+    color: black;
+    padding: 10px 0;
   }
 }

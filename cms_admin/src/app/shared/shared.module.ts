@@ -20,7 +20,6 @@ import {
 import {AdminElementDirective} from "./directives/admin-element.directive";
 import {EditorComponent} from "./components/editor/editor.component";
 import {TreeOptionComponent} from "./components/tree-option/tree-option.component";
-// import { MaterialTableComponent } from './components/material-table/material-table.component';
 
 let IMPORTS = [
     CommonModule,
@@ -43,10 +42,7 @@ let COMPONENTS = [
     SmdFabSpeedDialComponent,
     AdminElementDirective,
     EditorComponent,
-    TreeOptionComponent,
-    // MaterialTableComponent
-];
-
+    TreeOptionComponent];
 
 @NgModule({
     imports: IMPORTS,

@@ -4,6 +4,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { UserService } from '../../services/custom/user.service';
 import { User } from '../../models/user.model';
 import { AppService } from "../../services/app.service";
+import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material';
 
 /**
  * MaterialTableComponent
@@ -18,7 +19,8 @@ export class MaterialTableComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private app: AppService) {}
+    private app: AppService,
+    public snackBar: MatSnackBar) {}
 
   // Initialize a new table.
   dataSource = new MatTableDataSource();
@@ -27,7 +29,7 @@ export class MaterialTableComponent implements OnInit {
   // Row Selection
   selection = new SelectionModel<User>(true, []);
   row: any;
-  // private _columnSubscribe: Subscription;  // for checkbox logic added later
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
@@ -41,15 +43,6 @@ export class MaterialTableComponent implements OnInit {
       this.dataSource.data = users;
     });
   }
-
-  // openSnackBar() {
-  //   this.snackBar.openFromComponent(SnackBarComponent, {
-  //     data: `{{selection.selected.length}}
-  //     {{selection.selected.length == 1 ? 'user' : 'users'}}
-  //     selected (out of {{dataSource.data.length}})`,
-  //     duration: 1500,
-  //   });
-  // }
 
   filterValue:string = '';
   applyFilter(filterValue: string) {
@@ -84,14 +77,3 @@ export class MaterialTableComponent implements OnInit {
   //   this.dataSource.data.forEach(row => this.selection.select(row));
   // }
 }
-
-/**
- * MatSnackBar as SnackBarComponent
- */
-// @Component({
-//   selector: 'snack-bar',
-//   template: 'passed in {{ data }}',
-// })
-// export class SnackBarComponent {
-//   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { }
-// }
