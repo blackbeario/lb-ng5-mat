@@ -1,5 +1,7 @@
 <div class="datatable-card">
   <div *ngIf="errorMessage" class="l-pad-top-1 l-pad-bottom-1 alert is-critical">{{errorMessage}}</div>
+
+  <material-table></material-table>
   <smd-datatable
       [models]="models"
       [paginated]="true"

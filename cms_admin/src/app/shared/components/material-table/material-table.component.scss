@@ -1,0 +1,25 @@
+.mat-table-header {
+  padding: 0 20px 20px;
+}
+
+.selection-header {
+  padding: 0 0 10px;
+}
+
+.clearFilter {
+  position: absolute;
+  right: -10px;
+  top: -5px;
+}
+
+.mat-table-sticky {
+  border-top: 1px solid #e0e0e0;
+}
+
+.mat-footer-row {
+  min-height: 0;
+
+  span.ng-star-inserted {
+    min-height: 48px;
+  }
+}
