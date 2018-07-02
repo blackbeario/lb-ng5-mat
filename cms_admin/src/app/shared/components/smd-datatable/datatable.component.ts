@@ -265,7 +265,6 @@ export class SmdDataTableColumnComponent implements OnInit {
                <mat-icon *ngIf="icon">{{icon}}</mat-icon>
             <span>{{label}}</span>
         </button>
-
     `
 })
 export class SmdDatatableActionButton {

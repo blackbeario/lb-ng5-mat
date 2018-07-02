@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../shared/services/custom/user.service";
-import {UserFormComponent} from "../user-form/user-form.component";
-import {AppService} from "../../shared/services/app.service";
-import {RoleService} from "../../shared/services/custom/role.service";
-import {LoopBackFilter} from "../../shared/models/base.model";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../shared/services/custom/user.service";
+import { UserFormComponent } from "../user-form/user-form.component";
+import { AppService } from "../../shared/services/app.service";
+import { RoleService } from "../../shared/services/custom/role.service";
+import { LoopBackFilter } from "../../shared/models/base.model";
+import { MatDialog } from '@angular/material';
 import { RealtimeService } from '../../shared/services/core/realtime.service';
-
 
 @Component({
   selector: 'app-users',

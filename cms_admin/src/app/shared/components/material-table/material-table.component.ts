@@ -1,10 +1,80 @@
-import { Component, OnInit, ElementRef, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, ElementRef, Input,
+  Output, Inject, forwardRef, EventEmitter, AfterContentInit, ViewChild,
+  ContentChild, ContentChildren, QueryList } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
 import { UserService } from '../../services/custom/user.service';
 import { User } from '../../models/user.model';
+import { UserFormComponent } from "../../../user/user-form/user-form.component";
 import { AppService } from "../../services/app.service";
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material';
+import { UsersComponent } from '../../../user/users/users.component';
+
+/**
+ * Action button
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "action-button",
+  template: `
+    <button mat-raised-button color="primary" aria-label="Add Item"
+      (click)="_parent.addItem($event)" class="addItem">Add
+    </button>
+  `
+})
+export class ActionButton {
+  // @Output() click: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(
+    @Inject(forwardRef(() => UsersComponent))
+    private _parent: UsersComponent) {
+  }
+
+  // _onButtonClick(event: Event) {
+  //     this.click.emit();
+  // }
+}
+
+
+/**
+ * Table Filter
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "table-filter",
+  template: `
+    <mat-form-field floatPlaceholder="never">
+      <input [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter">
+      <button *ngIf="filterValue" mat-icon-button aria-label="filter" title="clear filter" (click)="_parent.clearFilter()" class="clear-filter">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  `
+})
+export class TableFilter {
+  constructor(@Inject(forwardRef(() => MaterialTableComponent))
+  private _parent: MaterialTableComponent) {
+  }
+}
+
+
+/**
+ * Table Header
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "mat-table-header",
+  template: `
+    <ng-content select="table-filter"></ng-content>
+    <ng-content select="action-button"></ng-content>
+  `
+})
+export class TableHeader {
+  constructor(@Inject(forwardRef(() => MaterialTableComponent)) private _parent: MaterialTableComponent) {
+  }
+}
 
 /**
  * MaterialTableComponent
@@ -16,11 +86,12 @@ import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material';
 })
 
 export class MaterialTableComponent implements OnInit {
-
   constructor(
+    @Inject(forwardRef(() => UsersComponent))
+    private _parent: UsersComponent,
     private userService: UserService,
     private app: AppService,
-    public snackBar: MatSnackBar) {}
+    public dialog: MatDialog) {}
 
   // Initialize a new table.
   dataSource = new MatTableDataSource();
