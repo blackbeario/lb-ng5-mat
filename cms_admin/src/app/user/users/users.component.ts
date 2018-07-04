@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../shared/services/custom/user.service";
-import {UserFormComponent} from "../user-form/user-form.component";
-import {AppService} from "../../shared/services/app.service";
-import {RoleService} from "../../shared/services/custom/role.service";
-import {LoopBackFilter} from "../../shared/models/base.model";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material';
+import { Component, OnInit, ViewChild, ContentChild } from '@angular/core';
+import { UserService } from "../../shared/services/custom/user.service";
+import { UserFormComponent } from "../user-form/user-form.component";
+import { AppService } from "../../shared/services/app.service";
+import { RoleService } from "../../shared/services/custom/role.service";
+import { LoopBackFilter } from "../../shared/models/base.model";
+import { MatDialog } from '@angular/material';
 import { RealtimeService } from '../../shared/services/core/realtime.service';
-
+import { MaterialTableComponent, TableHeader, ActionButton } from '../../shared/components/material-table';
 
 @Component({
   selector: 'app-users',
@@ -15,6 +15,8 @@ import { RealtimeService } from '../../shared/services/core/realtime.service';
   providers: [RealtimeService]
 })
 export class UsersComponent implements OnInit {
+
+  @ViewChild(MaterialTableComponent) matTable: MaterialTableComponent;
 
   models: any[] = [];
   modelCounts: number = 0;
@@ -44,15 +46,20 @@ export class UsersComponent implements OnInit {
     // For realtime data
     this.onUserCreate();
 
+    // Subscribes to the Add button event in the ActionButton child component.
+    this.matTable.addItem.click.subscribe((event) => {
+      this.addItem(event);
+    });
+
     this.app.setTitle("Users");
     this.userService.count().subscribe(res => {
       this.modelCounts = res.count;
     });
+    // Get users data
     this.userService.find(this.filter).subscribe(users => {
       this.models = users;
     });
-
-    // get roles
+    // Get roles data
     this.roleService.find().subscribe(roles => {
       this.roles = roles;
     });

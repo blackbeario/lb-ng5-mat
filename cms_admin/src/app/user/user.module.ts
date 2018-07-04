@@ -6,8 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { PasswordComponent } from './password/password.component';
 import { SharedModule } from "../shared/shared.module";
 import { MaterialModule } from '../shared/material.module';
-import { MaterialTableComponent } from '../shared/components/material-table/material-table.component';
-import {MatSnackBar} from '@angular/material';
+import { MaterialTableComponent, ActionButton, TableHeader, TableFilter } from '../shared/components/material-table/material-table.component';
 
 @NgModule({
 	imports: [
@@ -15,10 +14,7 @@ import {MatSnackBar} from '@angular/material';
 		SharedModule.forRoot(),
 		UserRoutingModule
 	],
-	providers: [
-		{ provide: MatSnackBar, useValue: {} },
-	],
-	declarations: [UsersComponent, UserFormComponent, RegisterComponent, MaterialTableComponent, PasswordComponent],
+	declarations: [UsersComponent, UserFormComponent, RegisterComponent, MaterialTableComponent, ActionButton, TableHeader, TableFilter, PasswordComponent],
 	entryComponents: [UserFormComponent]
 })
 export class UserModule {

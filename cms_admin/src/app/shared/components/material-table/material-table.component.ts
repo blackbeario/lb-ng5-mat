@@ -1,10 +1,81 @@
-import { Component, OnInit, ElementRef, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy, ElementRef, Input,
+  Output, Inject, forwardRef, EventEmitter, AfterContentInit, ViewChild,
+  ContentChild, ContentChildren, QueryList } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MatDialogConfig, MatInput, MatFormField } from '@angular/material';
 import { UserService } from '../../services/custom/user.service';
 import { User } from '../../models/user.model';
+import { UserFormComponent } from "../../../user/user-form/user-form.component";
 import { AppService } from "../../services/app.service";
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material';
+import { UsersComponent } from '../../../user/users/users.component';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+
+/**
+ * Action button
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "action-button",
+  template: `
+    <button #addItem name="addItem" mat-raised-button color="primary" aria-label="Add Item" (click)="_onButtonClick($event)" class="addItem">Add
+    </button>
+  `
+})
+export class ActionButton {
+  @Output() click: EventEmitter<void> = new EventEmitter<void>();
+  constructor(
+  @Inject(forwardRef(() => MaterialTableComponent))
+    private _parent: MaterialTableComponent) {
+  }
+  _onButtonClick(event: Event) {
+      this.click.emit();
+  }
+}
+
+
+/**
+ * Table Filter
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "table-filter",
+  template: `
+    <mat-form-field floatPlaceholder="never">
+      <input name="filterInput" [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter" aria-label="Filter">
+      <button #clearFilter *ngIf="filterValue" mat-icon-button aria-label="clear filter" title="clear filter" (click)="_parent.clearFilter()" class="clear-filter">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  `,
+  styles: [`.clear-filter {position:absolute; right: -10px; top: -5px;}`]
+})
+export class TableFilter {
+  filterValue:string;
+  constructor(@Inject(forwardRef(() => MaterialTableComponent))
+  private _parent: MaterialTableComponent) {
+  }
+}
+
+
+/**
+ * Table Header
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "mat-table-header",
+  template: `
+    <ng-content select="table-filter"></ng-content>
+    <ng-content select="action-button"></ng-content>
+  `
+})
+export class TableHeader {
+  constructor(@Inject(forwardRef(() => MaterialTableComponent)) private _parent: MaterialTableComponent) {
+  }
+}
 
 /**
  * MaterialTableComponent
@@ -15,12 +86,11 @@ import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material';
   styleUrls: ['./material-table.component.scss']
 })
 
-export class MaterialTableComponent implements OnInit {
-
+export class MaterialTableComponent implements OnInit  {
   constructor(
     private userService: UserService,
     private app: AppService,
-    public snackBar: MatSnackBar) {}
+    public dialog: MatDialog) {}
 
   // Initialize a new table.
   dataSource = new MatTableDataSource();
@@ -32,7 +102,8 @@ export class MaterialTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('filter') filter: ElementRef;
+  @ViewChild(TableFilter) input: TableFilter;
+  @ViewChild(ActionButton) addItem: ActionButton;
 
   ngOnInit() {
     // Initialize the pager.
@@ -44,7 +115,6 @@ export class MaterialTableComponent implements OnInit {
     });
   }
 
-  filterValue:string = '';
   applyFilter(filterValue: string) {
     // Remove whitespace.
     filterValue = filterValue.trim();
@@ -53,8 +123,8 @@ export class MaterialTableComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  clearFilter(filterValue: string) {
-    this.filterValue = '';
+  clearFilter() {
+    this.input.filterValue = '';
     this.dataSource.filter = null;
   }
 
