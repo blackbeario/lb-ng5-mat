@@ -1,9 +1,11 @@
+<material-table>
+  <mat-table-header>
+    <action-button></action-button>
+  </mat-table-header>
+</material-table>
+
 <div class="datatable-card">
   <div *ngIf="errorMessage" class="l-pad-top-1 l-pad-bottom-1 alert is-critical">{{errorMessage}}</div>
-
-  <material-table>
-
-  </material-table>
 
   <smd-datatable
       [models]="models"
@@ -13,7 +15,7 @@
       (pageChange)="onPageChange($event)"
       [responsive]="responsive">
 
-    <smd-datatable-header [enableFilter]="true" filterLabel="Search...">
+    <smd-datatable-header [enableFilter]="true" filterLabel="Filter">
       <smd-datatable-action-button (onClick)="addItem($event)" label=" +" icon="add user"></smd-datatable-action-button>
       <!-- Edit button only shows if exactly one row is selected -->
       <smd-datatable-contextual-button (onClick)="editItem($event)" icon="edit"

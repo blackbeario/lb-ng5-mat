@@ -9,6 +9,7 @@ import { UserFormComponent } from "../../../user/user-form/user-form.component";
 import { AppService } from "../../services/app.service";
 import { UsersComponent } from '../../../user/users/users.component';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Action button
@@ -18,22 +19,19 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: "action-button",
   template: `
-    <button mat-raised-button color="primary" aria-label="Add Item"
-      (click)="_parent.addItem($event)" class="addItem">Add
+    <button #addItem name="addItem" mat-raised-button color="primary" aria-label="Add Item" (click)="_onButtonClick($event)" class="addItem">Add
     </button>
   `
 })
 export class ActionButton {
-  // @Output() click: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output() click: EventEmitter<void> = new EventEmitter<void>();
   constructor(
-    @Inject(forwardRef(() => UsersComponent))
-    private _parent: UsersComponent) {
+  @Inject(forwardRef(() => MaterialTableComponent))
+    private _parent: MaterialTableComponent) {
   }
-
-  // _onButtonClick(event: Event) {
-  //     this.click.emit();
-  // }
+  _onButtonClick(event: Event) {
+      this.click.emit();
+  }
 }
 
 
@@ -90,8 +88,6 @@ export class TableHeader {
 
 export class MaterialTableComponent implements OnInit  {
   constructor(
-    @Inject(forwardRef(() => UsersComponent))
-    private _parent: UsersComponent,
     private userService: UserService,
     private app: AppService,
     public dialog: MatDialog) {}
@@ -107,6 +103,7 @@ export class MaterialTableComponent implements OnInit  {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(TableFilter) input: TableFilter;
+  @ViewChild(ActionButton) addItem: ActionButton;
 
   ngOnInit() {
     // Initialize the pager.
