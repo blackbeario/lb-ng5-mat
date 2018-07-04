@@ -2,12 +2,13 @@ import { Component, OnInit, OnChanges, OnDestroy, ElementRef, Input,
   Output, Inject, forwardRef, EventEmitter, AfterContentInit, ViewChild,
   ContentChild, ContentChildren, QueryList } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogRef, MatDialog, MatDialogConfig, MatInput, MatFormField } from '@angular/material';
 import { UserService } from '../../services/custom/user.service';
 import { User } from '../../models/user.model';
 import { UserFormComponent } from "../../../user/user-form/user-form.component";
 import { AppService } from "../../services/app.service";
 import { UsersComponent } from '../../../user/users/users.component';
+import { FormControl } from '@angular/forms';
 
 /**
  * Action button
@@ -45,7 +46,7 @@ export class ActionButton {
   selector: "table-filter",
   template: `
     <mat-form-field floatPlaceholder="never">
-      <input name="filterValue" [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter" aria-label="Filter">
+      <input name="filterInput" [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter" aria-label="Filter">
       <button #clearFilter *ngIf="filterValue" mat-icon-button aria-label="clear filter" title="clear filter" (click)="_parent.clearFilter()" class="clear-filter">
         <mat-icon>close</mat-icon>
       </button>
@@ -54,6 +55,7 @@ export class ActionButton {
   styles: [`.clear-filter {position:absolute; right: -10px; top: -5px;}`]
 })
 export class TableFilter {
+  filterValue:string;
   constructor(@Inject(forwardRef(() => MaterialTableComponent))
   private _parent: MaterialTableComponent) {
   }
@@ -86,7 +88,7 @@ export class TableHeader {
   styleUrls: ['./material-table.component.scss']
 })
 
-export class MaterialTableComponent implements OnInit {
+export class MaterialTableComponent implements OnInit  {
   constructor(
     @Inject(forwardRef(() => UsersComponent))
     private _parent: UsersComponent,
@@ -104,8 +106,7 @@ export class MaterialTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('filter') filter: ElementRef;
-  @ViewChild('filterValue') input: ElementRef;
+  @ViewChild(TableFilter) input: TableFilter;
 
   ngOnInit() {
     // Initialize the pager.
@@ -117,7 +118,6 @@ export class MaterialTableComponent implements OnInit {
     });
   }
 
-  filterValue:string = '';
   applyFilter(filterValue: string) {
     // Remove whitespace.
     filterValue = filterValue.trim();
@@ -126,9 +126,9 @@ export class MaterialTableComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  public clearFilter(filterValue: string) {
-    this.filterValue = ''; // Ugh, this isn't working now.
-    this.dataSource.filter = null;  // But this works.
+  clearFilter() {
+    this.input.filterValue = '';
+    this.dataSource.filter = null;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
