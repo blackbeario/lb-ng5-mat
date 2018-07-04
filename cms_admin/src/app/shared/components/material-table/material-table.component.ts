@@ -45,12 +45,13 @@ export class ActionButton {
   selector: "table-filter",
   template: `
     <mat-form-field floatPlaceholder="never">
-      <input [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter">
-      <button *ngIf="filterValue" mat-icon-button aria-label="filter" title="clear filter" (click)="_parent.clearFilter()" class="clear-filter">
+      <input name="filterValue" [(ngModel)]="filterValue" matInput (keyup)="_parent.applyFilter($event.target.value)" placeholder="Filter" aria-label="Filter">
+      <button #clearFilter *ngIf="filterValue" mat-icon-button aria-label="clear filter" title="clear filter" (click)="_parent.clearFilter()" class="clear-filter">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-  `
+  `,
+  styles: [`.clear-filter {position:absolute; right: -10px; top: -5px;}`]
 })
 export class TableFilter {
   constructor(@Inject(forwardRef(() => MaterialTableComponent))
@@ -104,6 +105,7 @@ export class MaterialTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('filter') filter: ElementRef;
+  @ViewChild('filterValue') input: ElementRef;
 
   ngOnInit() {
     // Initialize the pager.
@@ -124,9 +126,9 @@ export class MaterialTableComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  clearFilter(filterValue: string) {
-    this.filterValue = '';
-    this.dataSource.filter = null;
+  public clearFilter(filterValue: string) {
+    this.filterValue = ''; // Ugh, this isn't working now.
+    this.dataSource.filter = null;  // But this works.
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
