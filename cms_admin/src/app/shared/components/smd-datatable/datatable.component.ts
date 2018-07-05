@@ -445,7 +445,10 @@ export class SmdDataTable implements DoCheck, AfterContentInit, OnDestroy {
 
     private findLevel: number = 0;
 
-    constructor(differs: IterableDiffers, private _viewContainer: ViewContainerRef, public changeDetector: ChangeDetectorRef) {
+    constructor(
+        differs: IterableDiffers,
+        private _viewContainer: ViewContainerRef,
+        public changeDetector: ChangeDetectorRef) {
         this.differ = differs.find([]).create(null);
     }
 

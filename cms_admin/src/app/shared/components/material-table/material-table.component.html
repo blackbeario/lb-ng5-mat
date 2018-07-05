@@ -4,7 +4,7 @@
 </mat-table-header>
 
 <!-- Begin the datatable -->
-<mat-table #table matSort (matSortChange)="sortData($event)" [dataSource]="dataSource">
+<mat-table #table matSort [dataSource]="dataSource">
   <!-- Checkbox Column -->
   <ng-container matColumnDef="select">
     <mat-header-cell *matHeaderCellDef>
