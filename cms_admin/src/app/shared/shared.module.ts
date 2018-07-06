@@ -20,6 +20,7 @@ import {
 import {AdminElementDirective} from "./directives/admin-element.directive";
 import {EditorComponent} from "./components/editor/editor.component";
 import {TreeOptionComponent} from "./components/tree-option/tree-option.component";
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component'
 
 let IMPORTS = [
     CommonModule,
@@ -47,9 +48,9 @@ let COMPONENTS = [
 @NgModule({
     imports: IMPORTS,
     exports: COMPONENTS,
-    declarations: COMPONENTS,
+    declarations: [COMPONENTS, ConfirmDialogComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    entryComponents: [SmdDatatableDialogChangeValue, TreeOptionComponent]
+    entryComponents: [SmdDatatableDialogChangeValue, TreeOptionComponent, ConfirmDialogComponent]
 })
 export class SharedModule {
 

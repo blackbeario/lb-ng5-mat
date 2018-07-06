@@ -131,7 +131,7 @@ export class SmdDataTableCellComponent implements OnInit, OnDestroy {
 @Component({
     selector: "[smd-datatable-row]",
     template:
-        `<td *ngIf="renderCheckbox" class="smd-datatable-body-checkbox">
+        `<td class="smd-datatable-body-checkbox">
             <div class="smd-checkbox">
                 <mat-checkbox [(ngModel)]="row.checked" (change)="_parent._onRowCheckChange(row)" aria-label="checkbox" ngDefaultControl>
                 </mat-checkbox>

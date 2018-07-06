@@ -28,6 +28,29 @@ export class ActionButton {
   }
 }
 
+/**
+ * Delete Button
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "delete-button",
+  template: `
+    <button #deleteItem name="deleteItem" *ngIf="!_parent.selection.isEmpty()" mat-raised-button color="primary" aria-label="Delete Item" (click)="_onButtonClick($event)" class="deleteItem">Delete
+    </button>
+  `
+})
+export class DeleteButton {
+  @Output() click: EventEmitter<void> = new EventEmitter<void>();
+  constructor(
+  @Inject(forwardRef(() => MaterialTableComponent))
+    private _parent: MaterialTableComponent) {
+  }
+  _onButtonClick(event: Event) {
+      this.click.emit();
+  }
+}
+
 
 /**
  * Table Filter
@@ -53,7 +76,6 @@ export class TableFilter {
   }
 }
 
-
 /**
  * Table Header
  *
@@ -63,6 +85,7 @@ export class TableFilter {
   selector: "mat-table-header",
   template: `
     <ng-content select="table-filter"></ng-content>
+    <ng-content select="delete-button"></ng-content>
     <ng-content select="action-button"></ng-content>
   `
 })
@@ -80,7 +103,7 @@ export class TableHeader {
   styleUrls: ['./material-table.component.scss']
 })
 
-export class MaterialTableComponent implements AfterContentInit  {
+export class MaterialTableComponent implements AfterContentInit {
   constructor(
     private userService: UserService,
     public dialog: MatDialog
@@ -98,6 +121,7 @@ export class MaterialTableComponent implements AfterContentInit  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(TableFilter) input: TableFilter;
   @ViewChild(ActionButton) addItem: ActionButton;
+  @ViewChild(DeleteButton) deleteItem: DeleteButton;
 
   ngAfterContentInit() {
     // Initialize the pager.

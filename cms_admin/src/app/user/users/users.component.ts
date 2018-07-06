@@ -4,13 +4,16 @@ import { UserFormComponent } from "../user-form/user-form.component";
 import { AppService } from "../../shared/services/app.service";
 import { RoleService } from "../../shared/services/custom/role.service";
 import { LoopBackFilter } from "../../shared/models/base.model";
-import { MatDialog } from '@angular/material';
+import { DialogService } from "../../shared/services/core/dialog.service";
 import { RealtimeService } from '../../shared/services/core/realtime.service';
-import { MaterialTableComponent, TableHeader, ActionButton } from '../../shared/components/material-table';
+import { MaterialTableComponent } from '../../shared/components/material-table';
+import { MatTableDataSource, MatDialog } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
+  template: `<material-table></material-table>`,
   styleUrls: ['./users.component.scss'],
   providers: [RealtimeService]
 })
@@ -21,6 +24,7 @@ export class UsersComponent implements OnInit {
   models: any[] = [];
   modelCounts: number = 0;
   roles: any[] = [];
+  items: any[];
 
   currentPage: number = 1;
 
@@ -39,7 +43,8 @@ export class UsersComponent implements OnInit {
     private app: AppService,
     private roleService: RoleService,
     private userService: UserService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -50,6 +55,13 @@ export class UsersComponent implements OnInit {
     this.matTable.addItem.click.subscribe((event) => {
       this.addItem(event);
     });
+
+    // Subscribes to the Delete button event in the DeleteButton child component.
+    if (this.matTable.deleteItem) {
+      this.matTable.deleteItem.click.subscribe((event) => {
+        this.deleteItems();
+      });
+    }
 
     this.app.setTitle("Users");
     this.userService.count().subscribe(res => {
@@ -87,7 +99,47 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item) {
         // Commented out since we're using Realtime.js to refresh the model
-        // this.models.push(item);
+        this.models.push(item);
+      }
+    });
+  }
+
+  // editItem(selectedItems: any) {
+  //   console.log(selectedItems[0]);
+  //   let config: MatDialogConfig = {disableClose: true};
+  //   let dialogRef = this.dialog.open(NodeFormComponent, config);
+
+  //   dialogRef.componentInstance.selectedModel = JSON.parse(JSON.stringify(selectedItems[0]));
+
+  //   dialogRef.afterClosed().subscribe((response: any) => {
+  //     if (response) {
+  //       let indexValue = this.findIndexById(this.models, response);
+  //       if (indexValue !== null) {
+  //         this.models[indexValue] = response;
+  //       }
+  //     }
+  //   });
+  // }
+
+  deleteItems() {
+    let items = this.matTable.selection.selected;
+    let dialogRef = this.dialogService.confirm("Are you sure?", "Are you sure want to delete " + items.length + " selected items This action can not be undone.");
+
+    dialogRef.afterClosed().subscribe(confirm => {
+      let data = this.matTable.dataSource.data;
+      if (confirm) {
+        if (items && items.length) {
+          for (let i = 0; i < items.length; i++) {
+            this.userService.deleteById(items[i].id).subscribe(() => {
+              let indexValue = this.findIndexById(this.models, items[i]);
+              if (indexValue !== null) {
+                this.models.splice(indexValue, 1);
+                this.matTable.dataSource = new MatTableDataSource(data);
+              }
+            });
+            this.matTable.selection = new SelectionModel<User>(true, []);
+          }
+        }
       }
     });
   }
@@ -121,42 +173,5 @@ export class UsersComponent implements OnInit {
         }
       }
   }
-
-
-    // changeAvatar(model: any) {
-    //     let dialogRef = this.dialogService.openMediaPicker("Select profile photo", "Set as profile", "Cancel", {
-    //         selectLimit: 1,
-    //         acceptedFiles: "image/jpeg,image/gif,image/png"
-    //     });
-
-    //     dialogRef.afterClosed().subscribe((data: any) => {
-    //         if (data && data[0]) {
-    //             // return array object of media
-    //             let avatar = data[0];
-    //             let obj = {
-    //                 "mediaId": avatar.id
-    //             };
-    //             if (model.avatar) {
-    //                 // delete first
-    //                 this.userService.removeAvatar(model.id).subscribe(() => {
-    //                     this.doChangeAvatar(model, obj, avatar);
-    //                 }, () => {
-    //                     this.doChangeAvatar(model, obj, avatar);
-    //                 });
-    //             } else {
-    //                 this.doChangeAvatar(model, obj, avatar);
-    //             }
-    //         }
-    //     });
-    // }
-
-    // doChangeAvatar(model: any, obj: any, avatar: any) {
-    //     this.userService.updateAvatar(model.id, obj).subscribe(res => {
-    //         model.avatar = {media: avatar};
-    //     }, err => {
-    //         this.errorMessage = err.message;
-    //     });
-    // }
-
 
 }
