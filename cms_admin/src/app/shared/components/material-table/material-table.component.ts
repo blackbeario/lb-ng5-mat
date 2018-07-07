@@ -36,7 +36,7 @@ export class ActionButton {
 @Component({
   selector: "delete-button",
   template: `
-    <button #deleteItem name="deleteItem" *ngIf="!_parent.selection.isEmpty()" mat-raised-button color="primary" aria-label="Delete Item" (click)="_onButtonClick($event)" class="deleteItem">Delete
+    <button #deleteItem name="deleteItem" *ngIf="!_parent.selection.isEmpty()" mat-raised-button color="warn" aria-label="Delete Item" (click)="_onButtonClick($event)" class="deleteItem">Delete
     </button>
   `
 })
@@ -51,6 +51,28 @@ export class DeleteButton {
   }
 }
 
+/**
+ * Edit Button
+ *
+ * We use content projection to build a reusable material table component.
+ */
+@Component({
+  selector: "edit-button",
+  template: `
+    <button #editItem name="editItem" *ngIf="!_parent.selection.isEmpty() && _parent.numSelected() == 1" mat-raised-button color="accent" aria-label="Edit Item" (click)="_onButtonClick($event)" class="editItem">Edit
+    </button>
+  `
+})
+export class EditButton {
+  @Output() click: EventEmitter<void> = new EventEmitter<void>();
+  constructor(
+  @Inject(forwardRef(() => MaterialTableComponent))
+    private _parent: MaterialTableComponent) {
+  }
+  _onButtonClick(event: Event) {
+      this.click.emit();
+  }
+}
 
 /**
  * Table Filter
@@ -85,8 +107,11 @@ export class TableFilter {
   selector: "mat-table-header",
   template: `
     <ng-content select="table-filter"></ng-content>
-    <ng-content select="delete-button"></ng-content>
-    <ng-content select="action-button"></ng-content>
+    <span class="action-buttons">
+      <ng-content select="action-button"></ng-content>
+      <ng-content select="edit-button"></ng-content>
+      <ng-content select="delete-button"></ng-content>
+    <span>
   `
 })
 export class TableHeader {
@@ -116,11 +141,13 @@ export class MaterialTableComponent implements AfterContentInit {
   // Row Selection
   selection = new SelectionModel<User>(true, []);
   row: any;
+  selected: any[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(TableFilter) input: TableFilter;
   @ViewChild(ActionButton) addItem: ActionButton;
+  @ViewChild(EditButton) editItem: EditButton;
   @ViewChild(DeleteButton) deleteItem: DeleteButton;
 
   ngAfterContentInit() {
@@ -152,12 +179,19 @@ export class MaterialTableComponent implements AfterContentInit {
     this.dataSource.filter = null;
   }
 
+  numSelected() {
+    let numSelected = this.selection.selected.length;
+    return numSelected;
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+
+
 
   /** Selects all rows if they are not all selected; otherwise clear selection.
    *

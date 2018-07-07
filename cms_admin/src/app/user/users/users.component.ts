@@ -7,7 +7,7 @@ import { LoopBackFilter } from "../../shared/models/base.model";
 import { DialogService } from "../../shared/services/core/dialog.service";
 import { RealtimeService } from '../../shared/services/core/realtime.service';
 import { MaterialTableComponent } from '../../shared/components/material-table';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { User } from '../../shared/models/user.model';
 
@@ -56,6 +56,11 @@ export class UsersComponent implements OnInit {
       this.addItem(event);
     });
 
+    // Subscribes to the Edit button event in the EditButton child component.
+    this.matTable.editItem.click.subscribe((event) => {
+    this.editItem();
+    });
+
     // Subscribes to the Delete button event in the DeleteButton child component.
     if (this.matTable.deleteItem) {
       this.matTable.deleteItem.click.subscribe((event) => {
@@ -100,26 +105,33 @@ export class UsersComponent implements OnInit {
       if (item) {
         // Commented out since we're using Realtime.js to refresh the model
         this.models.push(item);
+        this.matTable.loadData();
       }
     });
   }
 
-  // editItem(selectedItems: any) {
-  //   console.log(selectedItems[0]);
-  //   let config: MatDialogConfig = {disableClose: true};
-  //   let dialogRef = this.dialog.open(NodeFormComponent, config);
+  editItem() {
+    let item = this.matTable.selection.selected;
+    let config: MatDialogConfig = {disableClose: true};
+    let dialogRef = this.dialog.open(UserFormComponent, {
+      width: '500px',
+      disableClose: true
+    });
 
-  //   dialogRef.componentInstance.selectedModel = JSON.parse(JSON.stringify(selectedItems[0]));
+    dialogRef.componentInstance.selectedModel = JSON.parse(JSON.stringify(item));
 
-  //   dialogRef.afterClosed().subscribe((response: any) => {
-  //     if (response) {
-  //       let indexValue = this.findIndexById(this.models, response);
-  //       if (indexValue !== null) {
-  //         this.models[indexValue] = response;
-  //       }
-  //     }
-  //   });
-  // }
+    console.log(dialogRef.componentInstance.selectedModel)
+
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response) {
+        let indexValue = this.findIndexById(this.models, response);
+        console.log(indexValue)
+        if (indexValue !== null) {
+          this.models[indexValue] = response;
+        }
+      }
+    });
+  }
 
   deleteItems() {
     let items = this.matTable.selection.selected;

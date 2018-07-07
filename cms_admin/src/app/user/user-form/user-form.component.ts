@@ -34,9 +34,10 @@ export class UserFormComponent implements OnInit {
   ngOnInit() {
     if (this.selectedModel) {
       this.model = this.selectedModel;
-      this.title = "Edit user";
+      this.title = "Edit User";
       this.action = "Update";
       this.passwordRequired = false;
+      console.log(this.model)
     }
   }
 
