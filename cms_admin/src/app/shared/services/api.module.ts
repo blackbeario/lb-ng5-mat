@@ -5,10 +5,10 @@ import {AppModels} from './custom/app.models';
 import {InternalStorage, AppStorage} from '../storage/storage.swaps';
 import {NgModule, ModuleWithProviders} from '@angular/core';
 import {CookieBrowser} from '../storage/cookie.browser';
-import {StorageBrowser} from '../storage/storage.browser';
-import {UserService} from './custom/user.service';
-import {AppService} from "./app.service";
-import {RoleService} from "./custom/role.service";
+import { StorageBrowser } from '../storage/storage.browser';
+import { UserService } from './custom/user.service';
+import { AppService } from "./app.service";
+import { RoleService } from "./custom/role.service";
 import { DialogService } from './core/dialog.service';
 import { NodeService } from './custom/node.service';
 

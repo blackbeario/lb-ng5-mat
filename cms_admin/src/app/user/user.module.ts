@@ -6,7 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { PasswordComponent } from './password/password.component';
 import { SharedModule } from "../shared/shared.module";
 import { MaterialModule } from '../shared/material.module';
-import { MaterialTableComponent, ActionButton, TableHeader, TableFilter } from '../shared/components/material-table/material-table.component';
+import { MaterialTableComponent, ActionButton, EditButton, DeleteButton, TableHeader, TableFilter } from '../shared/components/material-table/material-table.component';
 
 @NgModule({
 	imports: [
@@ -14,7 +14,7 @@ import { MaterialTableComponent, ActionButton, TableHeader, TableFilter } from '
 		SharedModule.forRoot(),
 		UserRoutingModule
 	],
-	declarations: [UsersComponent, UserFormComponent, RegisterComponent, MaterialTableComponent, ActionButton, TableHeader, TableFilter, PasswordComponent],
+	declarations: [UsersComponent, UserFormComponent, RegisterComponent, MaterialTableComponent, ActionButton, EditButton, DeleteButton, TableHeader, TableFilter, PasswordComponent],
 	entryComponents: [UserFormComponent]
 })
 export class UserModule {

@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {AppService} from "../../shared/services/app.service";
 import {User} from "../../shared/models/user.model";
 import {UserService} from "../../shared/services/custom/user.service";
-import {MatDialogRef} from "@angular/material";
+import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material";
 import {Role} from "../../shared/models/role.model";
 import {RoleMapping} from "../../shared/models/base.model";
-import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-user-form',
@@ -34,7 +33,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit() {
     if (this.selectedModel) {
       this.model = this.selectedModel;
-      this.title = "Edit user";
+      this.title = "Edit User";
       this.action = "Update";
       this.passwordRequired = false;
     }
