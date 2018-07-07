@@ -140,7 +140,7 @@ export class MaterialTableComponent implements AfterContentInit {
   displayedColumns = ['select', 'username', 'email', 'roles', 'created', 'updated'];
   // Row Selection
   selection = new SelectionModel<User>(true, []);
-  row: any;
+  row: any[];
   selected: any[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -191,17 +191,10 @@ export class MaterialTableComponent implements AfterContentInit {
     return numSelected === numRows;
   }
 
-
-
   /** Selects all rows if they are not all selected; otherwise clear selection.
-   *
-   * This works in the application, but Typescript is complaining that
-   * TS2345: Argument of type '{}' is not assignable to parameter of type 'User'. Property 'username' is missing in type '{}'.
-   *
-   * https://material.angular.io/components/table/overview#selection
   */
   masterToggle() {
     this.isAllSelected() ? this.selection.clear() :
-    this.dataSource.data.forEach(row => this.selection.select(row));
+    this.dataSource.data.forEach(row => this.selection.select(<any>row));
   }
 }
