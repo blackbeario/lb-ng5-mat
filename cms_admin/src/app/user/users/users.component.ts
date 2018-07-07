@@ -116,16 +116,17 @@ export class UsersComponent implements OnInit {
 
   editItem() {
     let item = this.matTable.selection.selected;
-    console.log('Selected item:', item)
-
+    // console.log('Selected item:', item)
     let config: MatDialogConfig = {
-      disableClose: false,
+      disableClose: true,
       width: '500px',
       data: {
         firstName: item['0'].firstName,
         lastName: item['0'].lastName,
         email: item['0'].email,
         username: item['0'].username,
+        password: item['0'].password,
+        id: item['0'].id
       }
     };
     let dialogRef = this.dialog.open(UserFormComponent, config);
@@ -135,12 +136,16 @@ export class UsersComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response) {
         let indexValue = this.findIndexById(this.models, response);
-        console.log(indexValue)
+        // console.log(indexValue)
         if (indexValue !== null) {
           this.models[indexValue] = response;
+          // Refreshes the table with new data.
+          this.matTable.loadData();
         }
       }
     });
+    // Deselects any rows.
+    this.matTable.selection = new SelectionModel<User>(true, []);
   }
 
   deleteItems() {
@@ -160,7 +165,7 @@ export class UsersComponent implements OnInit {
                 this.matTable.loadData();
               }
             });
-            // Deselects any checkboxes.
+            // Deselects any rows.
             this.matTable.selection = new SelectionModel<User>(true, []);
           }
         }
