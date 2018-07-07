@@ -59,7 +59,7 @@ export class DeleteButton {
 @Component({
   selector: "edit-button",
   template: `
-    <button #editItem name="editItem" *ngIf="!_parent.selection.isEmpty() && _parent.numSelected() == 1" mat-raised-button color="accent" aria-label="Edit Item" (click)="_onButtonClick($event)" class="editItem">Edit
+    <button #editItem name="editItem" *ngIf="!_parent.selection.isEmpty() && _parent.numSelected() === 1" mat-raised-button color="accent" aria-label="Edit Item" (click)="_onButtonClick($event)" class="editItem">Edit
     </button>
   `
 })

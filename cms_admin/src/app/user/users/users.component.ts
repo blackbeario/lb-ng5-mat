@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ContentChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from "../../shared/services/custom/user.service";
 import { UserFormComponent } from "../user-form/user-form.component";
 import { AppService } from "../../shared/services/app.service";
@@ -25,9 +25,14 @@ export class UsersComponent implements OnInit {
   modelCounts: number = 0;
   roles: any[] = [];
   items: any[];
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  email: string;
+  id: string;
 
   currentPage: number = 1;
-
   filter: LoopBackFilter = {
   include: [{
     relation: 'roles',
@@ -35,7 +40,6 @@ export class UsersComponent implements OnInit {
     }],
   limit: 25,
   };
-
   errorMessage: string;
 
   constructor(
@@ -57,7 +61,7 @@ export class UsersComponent implements OnInit {
     });
 
     // Subscribes to the Edit button event in the EditButton child component.
-    this.matTable.editItem.click.subscribe((event) => {
+    this.matTable.editItem.click.subscribe(() => {
     this.editItem();
     });
 
@@ -103,8 +107,8 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((item: any) => {
       if (item) {
-        // Commented out since we're using Realtime.js to refresh the model
         this.models.push(item);
+        // Refreshes the table with new data.
         this.matTable.loadData();
       }
     });
@@ -112,15 +116,21 @@ export class UsersComponent implements OnInit {
 
   editItem() {
     let item = this.matTable.selection.selected;
-    let config: MatDialogConfig = {disableClose: true};
-    let dialogRef = this.dialog.open(UserFormComponent, {
+    console.log('Selected item:', item)
+
+    let config: MatDialogConfig = {
+      disableClose: false,
       width: '500px',
-      disableClose: true
-    });
-
-    dialogRef.componentInstance.selectedModel = JSON.parse(JSON.stringify(item));
-
-    console.log(dialogRef.componentInstance.selectedModel)
+      data: {
+        firstName: item['0'].firstName,
+        lastName: item['0'].lastName,
+        email: item['0'].email,
+        username: item['0'].username,
+      }
+    };
+    let dialogRef = this.dialog.open(UserFormComponent, config);
+    // Triggers the Edit User form vs the Create User form and passes the data.
+    dialogRef.componentInstance.selectedModel = config.data;
 
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response) {
@@ -146,9 +156,11 @@ export class UsersComponent implements OnInit {
               let indexValue = this.findIndexById(this.models, items[i]);
               if (indexValue !== null) {
                 this.models.splice(indexValue, 1);
-                this.matTable.dataSource = new MatTableDataSource(data);
+                // Refreshes the table with new data.
+                this.matTable.loadData();
               }
             });
+            // Deselects any checkboxes.
             this.matTable.selection = new SelectionModel<User>(true, []);
           }
         }
