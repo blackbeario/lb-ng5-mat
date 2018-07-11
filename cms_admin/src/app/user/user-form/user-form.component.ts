@@ -2,14 +2,14 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {AppService} from "../../shared/services/app.service";
 import {User} from "../../shared/models/user.model";
 import {UserService} from "../../shared/services/custom/user.service";
-import {MatDialogRef, MAT_DIALOG_DATA} from "@angular/material";
+import {MatDialogRef} from "@angular/material";
 import {Role} from "../../shared/models/role.model";
 import {RoleMapping} from "../../shared/models/base.model";
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.css']
+  styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent implements OnInit {
 
@@ -25,7 +25,6 @@ export class UserFormComponent implements OnInit {
   public selectedModel: any;
 
   constructor(
-    private app: AppService,
     public dialog: MatDialogRef<UserFormComponent>,
     private userService: UserService) {
   }

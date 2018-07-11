@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
 
     // Subscribes to the Edit button event in the EditButton child component.
     this.matTable.editItem.click.subscribe(() => {
-    this.editItem();
+      this.editItem();
     });
 
     // Subscribes to the Delete button event in the DeleteButton child component.
@@ -150,7 +150,7 @@ export class UsersComponent implements OnInit {
 
   deleteItems() {
     let items = this.matTable.selection.selected;
-    let dialogRef = this.dialogService.confirm("Are you sure?", "Are you sure want to delete " + items.length + " selected items This action can not be undone.");
+    let dialogRef = this.dialogService.confirm("Deleting User", "Are you sure want to delete " + items.length + " selected items? This action can not be undone.");
 
     dialogRef.afterClosed().subscribe(confirm => {
       let data = this.matTable.dataSource.data;

@@ -6,7 +6,7 @@ import {RealtimeService} from "./shared/services/core/realtime.service";
 const appRoutes: Routes = [
     {
         path: '',
-        redirectTo: '/access',
+        redirectTo: '/users',
         pathMatch: 'full'
     },
     {

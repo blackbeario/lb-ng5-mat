@@ -142,6 +142,7 @@ export class MaterialTableComponent implements AfterContentInit {
   selection = new SelectionModel<User>(true, []);
   row: any[];
   selected: any[];
+  selectedRowIndex: number;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -157,6 +158,10 @@ export class MaterialTableComponent implements AfterContentInit {
     this.dataSource.sort = this.sort;
     // Subscribes to the user observable.
     this.loadData();
+  }
+
+  highlight(row){
+    this.selectedRowIndex = row.id;
   }
 
   loadData() {
