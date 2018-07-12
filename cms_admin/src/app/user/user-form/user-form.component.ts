@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AppService} from "../../shared/services/app.service";
 import {User} from "../../shared/models/user.model";
 import {UserService} from "../../shared/services/custom/user.service";
@@ -25,6 +25,7 @@ export class UserFormComponent implements OnInit {
   public selectedModel: any;
 
   constructor(
+    private app: AppService,
     public dialog: MatDialogRef<UserFormComponent>,
     private userService: UserService) {
   }
@@ -96,7 +97,7 @@ export class UserFormComponent implements OnInit {
           roleId: role.id
         };
         this.userService.linkRoles(this.model.id, role.id, data).subscribe(res => {
-          //console.log("role mapping created", res);
+          // console.log("role mapping created", res);
         })
       });
     }

@@ -33,14 +33,14 @@
         <input matInput [(ngModel)]="model.password" type="password" name="password" placeholder="Password" [required]="passwordRequired"/>
       </mat-form-field>
     </div>
-    <div *ngIf="model.id" adminElement class="form-group form-group-full-width">
+    <div *ngIf="model.roles" adminElement class="form-group">
       <label class="form-label">Roles</label>
-      <div *ngFor="let role of roles">
-        <mat-checkbox class="user-role-checkbox" name="user-role" value="role"
-          (change)="updateRoles(role, $event)" ng-checked="isExistById(model.roles,role)">
-          {{role.name}}
-        </mat-checkbox>
-      </div>
+        <div *ngFor="let role of model.roles">
+          <mat-checkbox class="user-role-checkbox" name="user-role" value="role"
+            (change)="updateRoles(role, $event)" [checked]="isExistById(model.roles,role)">
+            {{role.name}}
+          </mat-checkbox>
+        </div>
     </div>
 
     <div class="form-group">
