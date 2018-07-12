@@ -33,7 +33,7 @@
         <input matInput [(ngModel)]="model.password" type="password" name="password" placeholder="Password" [required]="passwordRequired"/>
       </mat-form-field>
     </div>
-    <div *ngIf="model.roles" adminElement class="form-group">
+    <div *ngIf="hasRoles()" adminElement class="form-group">
       <label class="form-label">Roles</label>
         <div *ngFor="let role of model.roles">
           <mat-checkbox class="user-role-checkbox" name="user-role" value="role"

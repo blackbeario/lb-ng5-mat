@@ -39,6 +39,13 @@ export class UserFormComponent implements OnInit {
     }
   }
 
+  hasRoles() {
+    if (this.model.roles.length) {
+      return true;
+    }
+    return false;
+  }
+
   isExistById(items: any[], item: any): boolean {
     if (items && items.length) {
       for (let i = 0; i < items.length; i++) {
