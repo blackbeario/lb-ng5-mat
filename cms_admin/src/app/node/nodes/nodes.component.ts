@@ -8,7 +8,6 @@ import {NodeService} from "../../shared/services/custom/node.service";
 import {Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {RealtimeService} from "../../shared/services/core/realtime.service";
-import {MaterialModule} from "../../shared/material.module";
 
 @Component({
     selector: 'app-nodes',
@@ -29,12 +28,12 @@ export class NodesComponent implements OnInit, OnDestroy {
     errorMessage: string;
 
     constructor(
-        private realtime: RealtimeService,
-        private route: ActivatedRoute,
-        public dialog: MatDialog,
-        public dialogService: DialogService,
-        private app: AppService,
-        private nodeService: NodeService) {
+      private realtime: RealtimeService,
+      private route: ActivatedRoute,
+      public dialog: MatDialog,
+      public dialogService: DialogService,
+      private app: AppService,
+      private nodeService: NodeService) {
     }
 
     ngOnInit() {
@@ -77,7 +76,8 @@ export class NodesComponent implements OnInit, OnDestroy {
       let dialogRef = this.dialog.open(NodeFormComponent, config);
       dialogRef.afterClosed().subscribe((item: any) => {
         if (item) {
-          //this.models.push(item);
+          // this.models.push(item);
+          // If realtime is working, should'nt have to refresh the list.
         }
       });
     }
@@ -100,7 +100,7 @@ export class NodesComponent implements OnInit, OnDestroy {
     }
 
     removeItems(items: any[]) {
-      let dialogRef = this.dialogService.confirm("Are you sure?", "Are you sure want to delete " + items.length + " selected items This action can not be undone.");
+      let dialogRef = this.dialogService.confirm("Delete Nodes", "Are you sure want to delete " + items.length + " selected items This action can not be undone.");
 
       dialogRef.afterClosed().subscribe(confirm => {
         if (confirm) {

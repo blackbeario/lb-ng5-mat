@@ -4,6 +4,13 @@
 /dist
 /tmp
 /out-tsc
+out/*
+./out
+./out/*
+/out/*
+../out/*
+./.angulardoc.json
+../.angulardoc.json
 
 # dependencies
 /node_modules

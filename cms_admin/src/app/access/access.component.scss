@@ -1,0 +1,11 @@
+form {
+  padding: 1em;
+
+  .links li a {
+    color: gray;
+
+    &:hover {
+      color: white;
+    }
+  }
+}

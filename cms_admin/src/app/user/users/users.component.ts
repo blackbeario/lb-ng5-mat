@@ -7,7 +7,7 @@ import { LoopBackFilter } from "../../shared/models/base.model";
 import { DialogService } from "../../shared/services/core/dialog.service";
 import { RealtimeService } from '../../shared/services/core/realtime.service';
 import { MaterialTableComponent } from '../../shared/components/material-table';
-import { MatTableDataSource, MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { User } from '../../shared/models/user.model';
 
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
 
     // Subscribes to the Edit button event in the EditButton child component.
     this.matTable.editItem.click.subscribe(() => {
-    this.editItem();
+      this.editItem();
     });
 
     // Subscribes to the Delete button event in the DeleteButton child component.
@@ -116,7 +116,6 @@ export class UsersComponent implements OnInit {
 
   editItem() {
     let item = this.matTable.selection.selected;
-    // console.log('Selected item:', item)
     let config: MatDialogConfig = {
       disableClose: true,
       width: '500px',
@@ -126,7 +125,8 @@ export class UsersComponent implements OnInit {
         email: item['0'].email,
         username: item['0'].username,
         password: item['0'].password,
-        id: item['0'].id
+        id: item['0'].id,
+        roles: item['0'].roles
       }
     };
     let dialogRef = this.dialog.open(UserFormComponent, config);
@@ -150,7 +150,7 @@ export class UsersComponent implements OnInit {
 
   deleteItems() {
     let items = this.matTable.selection.selected;
-    let dialogRef = this.dialogService.confirm("Are you sure?", "Are you sure want to delete " + items.length + " selected items This action can not be undone.");
+    let dialogRef = this.dialogService.confirm("Deleting User", "Are you sure want to delete " + items.length + " selected items? This action can not be undone.");
 
     dialogRef.afterClosed().subscribe(confirm => {
       let data = this.matTable.dataSource.data;

@@ -8,39 +8,38 @@
   </div>
 
   <form #userform="ngForm" (ngSubmit)="onSave()">
-    <div class="form-group form-group-full-width">
+    <div class="form-group">
       <mat-form-field>
         <input matInput [(ngModel)]="model.firstName" type="text" name="firstName" placeholder="First Name"/>
       </mat-form-field>
     </div>
-    <div class="form-group form-group-full-width">
+    <div class="form-group">
       <mat-form-field>
         <input matInput [(ngModel)]="model.lastName" type="text"  name="lastName" placeholder="Last Name"/>
       </mat-form-field>
     </div>
-    <div class="form-group form-group-full-width">
+    <div class="form-group">
       <mat-form-field>
         <input matInput [(ngModel)]="model.email" type="email" name="email" placeholder="Email" [required]="true"/>
       </mat-form-field>
     </div>
-    <div class="form-group form-group-full-width">
+    <div class="form-group">
       <mat-form-field>
         <input matInput [(ngModel)]="model.username" name="username" placeholder="Username" [required]="true"/>
       </mat-form-field>
     </div>
-    <div class="form-group form-group-full-width">
+    <div class="form-group">
       <mat-form-field>
         <input matInput [(ngModel)]="model.password" type="password" name="password" placeholder="Password" [required]="passwordRequired"/>
       </mat-form-field>
     </div>
-    <div *ngIf="model.id" adminElement class="form-group form-group-full-width">
+    <div *ngIf="hasRoles()" adminElement class="form-group">
       <label class="form-label">Roles</label>
-      <div *ngFor="let role of roles">
-        <mat-checkbox class="user-role-checkbox" name="user-role" value="role"
-          (change)="updateRoles(role, $event)" ng-checked="isExistById(model.roles,role)">
-          {{role.name}}
-        </mat-checkbox>
-      </div>
+        <div *ngFor="let role of model.roles">
+          <mat-checkbox class="user-role-checkbox" aria-label="user-role" name="user-role" value="role" (change)="updateRoles(role, $event)"[checked]="isExistById(model.roles,role)">
+            {{role.name}}
+          </mat-checkbox>
+        </div>
     </div>
 
     <div class="form-group">

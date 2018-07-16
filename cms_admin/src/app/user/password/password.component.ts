@@ -11,12 +11,12 @@ export class PasswordComponent implements OnInit {
 
 	actionTitle: string = "Send me password";
 
-	constructor(private app: AppService,
-							public router: Router) {
+	constructor(
+    private app: AppService,
+		public router: Router) {
 	}
 
 	ngOnInit() {
 		this.app.setTitle("Forgot password");
 	}
-
 }

@@ -1,8 +1,8 @@
 <mat-card class="dialog-confirm">
 	<mat-card-title *ngIf="title">{{title}}</mat-card-title>
   <p [innerHTML]="message"></p>
-	<div class="actions">
-		<button #confirm name="confirm" mat-raised-button (click)="dialog.close(true)" color="warn" aria-label="Confirm Delete">{{actionButton}}</button>
-		<button mat-raised-button (click)="dialog.close()">{{cancelButton}}</button>
+	<div class="actions form-group">
+		<button type="submit" mat-raised-button (click)="dialog.close(true)" color="warn" aria-label="Confirm Delete">{{actionButton}}</button>
+		<button type="button" mat-raised-button (click)="dialog.close()">{{cancelButton}}</button>
 	</div>
 </mat-card>
