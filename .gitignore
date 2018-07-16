@@ -3,3 +3,4 @@
 # compiled output
 out/*
 .angulardoc.json
+.gitignore
