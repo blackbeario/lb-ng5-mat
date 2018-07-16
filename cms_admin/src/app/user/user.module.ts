@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {UsersComponent} from './users/users.component';
-import {UserFormComponent} from './user-form/user-form.component';
+import { NgModule } from '@angular/core';
+import { UsersComponent } from './users/users.component';
+import { UserFormComponent } from './user-form/user-form.component';
 import { UserRoutingModule } from "./user.routing";
 import { RegisterComponent } from './register/register.component';
 import { PasswordComponent } from './password/password.component';

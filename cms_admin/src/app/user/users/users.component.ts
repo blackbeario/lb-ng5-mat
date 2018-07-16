@@ -116,7 +116,6 @@ export class UsersComponent implements OnInit {
 
   editItem() {
     let item = this.matTable.selection.selected;
-    console.log('Selected item:', item)
     let config: MatDialogConfig = {
       disableClose: true,
       width: '500px',

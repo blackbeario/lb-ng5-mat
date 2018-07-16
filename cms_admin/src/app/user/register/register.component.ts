@@ -17,10 +17,10 @@ export class RegisterComponent implements OnInit {
 	passwordRepeat: string = "";
 	actionTitle: string = "Create an account";
 
-	constructor(private app: AppService,
-							private userService: UserService,
-							public router: Router) {
-
+	constructor(
+    private app: AppService,
+		private userService: UserService,
+		public router: Router) {
 	}
 
 	ngOnInit() {
@@ -28,8 +28,6 @@ export class RegisterComponent implements OnInit {
 	}
 
 	onSubmit() {
-
-
 		this.errorMessage = null;
 		this.successMessage = null;
 
@@ -42,7 +40,6 @@ export class RegisterComponent implements OnInit {
 			this.errorMessage = null;
 			this.actionTitle = "Create an account";
 			this.successMessage = "Your account has been created.";
-
 		});
 	}
 }

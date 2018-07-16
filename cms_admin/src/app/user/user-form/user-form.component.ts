@@ -39,6 +39,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
+  // Checks to see if the user has existing roles.
   hasRoles() {
     if (this.model.roles.length) {
       return true;
@@ -46,6 +47,7 @@ export class UserFormComponent implements OnInit {
     return false;
   }
 
+  // Marks role checkbox [checked] if role exists.
   isExistById(items: any[], item: any): boolean {
     if (items && items.length) {
       for (let i = 0; i < items.length; i++) {
@@ -104,7 +106,7 @@ export class UserFormComponent implements OnInit {
           roleId: role.id
         };
         this.userService.linkRoles(this.model.id, role.id, data).subscribe(res => {
-          // console.log("role mapping created", res);
+          console.log("role mapping created", res);
         })
       });
     }
@@ -113,7 +115,7 @@ export class UserFormComponent implements OnInit {
       this.rolesRemove.forEach((role) => {
         this.model.roles = this.model.roles.filter(r => r.id !== role.id);
         this.userService.unlinkRoles(this.model.id, role.id).subscribe(res => {
-          // console.log("role mapping delete", res);
+          console.log("role mapping delete", res);
         })
       });
     }
@@ -121,6 +123,7 @@ export class UserFormComponent implements OnInit {
   }
 
   updateRoles(role, event) {
+    console.log(event)
     if (event.checked == true) {
       let indexValue = this.findIndexById(this.rolesAdd, role);
       this.rolesRemove = this.rolesRemove.filter(r => r.id !== role.id);
